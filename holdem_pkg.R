@@ -21,8 +21,20 @@ hand1 = function(numattable1, playerseats1, chips1, blinds1, dealer1,
   
   chips2 = chips1 ## this will be the revised chips counts, at the end
   if(numattable1 < 1.5) return(chips2)
-  ## want to return other stuff too, liks who's left?
-  ## No need... can do that within main loop. Just check for zeros.
+
+  # Usage of built-in functions bid1 and bid2:
+  # bid1(numattable1, playerseats1, chips1, blinds1, dealer1, b3, ntable1, decision1)
+  # bid2(numattable1, playerseats1, blinds1, dealer1, b3, b4, round1, ntable1, decision1)
+  
+  # numattable1 = number of players currently remaining at the given table
+  # playerseats1 = list of indices, who's in seat 1, seat 2, etc
+  # chips1 = list of chips left, for players at this table only
+  # blinds1 = vector of(small blind amount, big blind amount)
+  # dealer1 = seat that the dealer is in
+  # b3 = cards the players have
+  # ntable = how many tables remain in the tournament
+  # decision1 = vector of the functions governing the players' betting
+  
   b3 = deal1(numattable1)
   b4 = bid1(numattable1,playerseats1, chips1, blinds1, dealer1, b3, ntable1, decision1) # cat("\n...",b4$bl1,"\n....",b4$il1,"\n")
   b5 = bid2(numattable1,playerseats1, blinds1, dealer1, b3,b4,2, ntable1, decision1) 

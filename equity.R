@@ -7,7 +7,7 @@ luck_equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, myfa
   chips2 = chips1
   if(numattable1 < 1.5) return(chips2)
   b3 = deal1(numattable1)
-  b4 = bid1(numattable1,playerseats1, chips1, blinds1, dealer1, b3, ntable1, decision1) # cat("\n...",b4$bl1,"\n....",b4$il1,"\n")
+  b4 = bid1(numattable1,playerseats1, chips1, blinds1, dealer1, b3, ntable1, decision1) 
   b5 = bid2(numattable1,playerseats1, blinds1, dealer1, b3,b4,2, ntable1, decision1) 
   b6 = bid2(numattable1,playerseats1, blinds1, dealer1, b3,b5,3, ntable1, decision1) 
   b7 = bid2(numattable1,playerseats1, blinds1, dealer1, b3,b6,4, ntable1, decision1) 
