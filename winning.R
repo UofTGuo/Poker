@@ -1,3 +1,5 @@
+library("holdem")
+
 #winning
 loganandtim = function (numattable1, crds1, board1, round1, currentbet, 
                         mychips1,
@@ -15,3 +17,7 @@ loganandtim = function (numattable1, crds1, board1, round1, currentbet,
   }
   a1
 }
+
+# Example
+numattable1 = 2
+data = deal1(numattable1)
