@@ -3,7 +3,6 @@ library("holdem")
 #Play around the "holdem" package
 
 #hand1
-## The function is currently defined as
 hand1 = function(numattable1, playerseats1, chips1, blinds1, dealer1,
          ntable1,myfast1,t1,t2,chipstart1,lowercut1, decision1){
   ## numattable1 = number of players at the table
