@@ -4,6 +4,8 @@ library("holdem")
 luck_equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, myfast1, t1, t2,
                        chipstart1, lowercut1, decision1){
   
+  #b3
+  
   chips2 = chips1
   if(numattable1 < 1.5) return(chips2)
   b3 = deal1(numattable1)
@@ -26,6 +28,20 @@ luck_equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, myfa
   }
   list(chips2=chips2,draw1=draw1)
   }
+
+# Example
+numattable1 = 2
+playerseats1 = c(2,1)
+chips1 = c(100,100)
+blinds1 = c(10,20)
+dealer1 = 1
+ntable1 = 1
+myfast1 = 2
+t1 = 0.5
+t2 = 1
+chipstart1 = 100
+lowercut1 = 10
+decision1 = list(gravity, tommy)
 
 #skill equity
 skill_equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, myfast1, t1, t2,

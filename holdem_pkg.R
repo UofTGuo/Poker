@@ -232,8 +232,11 @@ player1cards = c(5,7)
 player1suits = c(2,2)
 player2cards = c(13,3)
 player2suits = c(2,4)
-strflsh1(c(boardcards,player1cards),c(boardsuits,player1suits)) ## pl.1's value
-strflsh1(c(boardcards,player2cards),c(boardsuits,player2suits)) ## pl.2's value
+strflsh1(c(boardcards,player1cards),c(boardsuits,player1suits))
+strflsh1(c(boardcards,player2cards),c(boardsuits,player2suits))
+
+handeval(c(boardcards,player1cards),c(boardsuits,player1suits)) ## pl.1's value
+handeval(c(boardcards,player2cards),c(boardsuits,player2suits)) ## pl.2's value
 
 
 
