@@ -35,6 +35,16 @@ hand1 = function(numattable1, playerseats1, chips1, blinds1, dealer1,
   # ntable = how many tables remain in the tournament
   # decision1 = vector of the functions governing the players' betting
   
+  #Return 
+  # i1 = vector indicating who is still in the hand(1) or is out(0) 
+  # p1 = the size of the pot
+  # c1 = the number of chips everyone has left
+  # rb = the betting for the whole hand
+  # all1 = 0 if there is more betting in the hand, or 2 if the betting in the hand is all over
+  # bl1 = the betting for the current round
+  # il1 = player number indices of who bet
+  # out1 = list of who is out, i.e. who folded this round or had folded previously
+  
   b3 = deal1(numattable1)
   b4 = bid1(numattable1,playerseats1, chips1, blinds1, dealer1, b3, ntable1, decision1) # cat("\n...",b4$bl1,"\n....",b4$il1,"\n")
   b5 = bid2(numattable1,playerseats1, blinds1, dealer1, b3,b4,2, ntable1, decision1) 
@@ -226,17 +236,19 @@ tourn1(name1, decision1, chipstart1, bigstart1, inc1, winners1, myfast1, t1, t2,
 
 
 #strflsh1
-boardcards = c(4,5,6,8,9)
-boardsuits = c(2,3,2,2,2)
-player1cards = c(5,7)
-player1suits = c(2,2)
-player2cards = c(13,3)
+#boardcards = c(4,5,6,8,13)
+#boardsuits = c(2,3,2,2,2)
+boardcards = c()
+boardsuits = c()
+player1cards = c(2,3)
+player1suits = c(2,1)
+player2cards = c(7,3)
 player2suits = c(2,4)
 strflsh1(c(boardcards,player1cards),c(boardsuits,player1suits))
 strflsh1(c(boardcards,player2cards),c(boardsuits,player2suits))
 
-handeval(c(boardcards,player1cards),c(boardsuits,player1suits)) ## pl.1's value
-handeval(c(boardcards,player2cards),c(boardsuits,player2suits)) ## pl.2's value
+a = handeval(c(boardcards,player1cards),c(boardsuits,player1suits)) ## pl.1's value
+b = handeval(c(boardcards,player2cards),c(boardsuits,player2suits)) ## pl.2's value
 
 
 

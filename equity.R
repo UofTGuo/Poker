@@ -1,33 +1,56 @@
 library("holdem")
 
 #luck equity
-luck_equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, myfast1, t1, t2,
-                       chipstart1, lowercut1, decision1){
+luck_equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart1, decision1){
   
-  #b3
-  
-  chips2 = chips1
-  if(numattable1 < 1.5) return(chips2)
   b3 = deal1(numattable1)
   b4 = bid1(numattable1,playerseats1, chips1, blinds1, dealer1, b3, ntable1, decision1) 
   b5 = bid2(numattable1,playerseats1, blinds1, dealer1, b3,b4,2, ntable1, decision1) 
   b6 = bid2(numattable1,playerseats1, blinds1, dealer1, b3,b5,3, ntable1, decision1) 
   b7 = bid2(numattable1,playerseats1, blinds1, dealer1, b3,b6,4, ntable1, decision1) 
+  
+  # pre-flop equity
+  
+  # the flop equity
+  
+  # the turn equity
+  
+  # the river equity
+  
   chips2 = calcwin1(numattable1,playerseats1, b3, b7)
-  draw1 = 0
-  u21 = runif(1)
-  if(((max(chips2/(chips1+.01)) > 1.99) &&
-      (u21 < t1)) || ((max(chips1/(chips2+.01)) > 99) && (u21 < t2))) {
-    if(myfast1 < 1) {
-      text(1,lowercut1,"click to continue",cex=.7)
-      locator(1) }
-    mygraphics1(numattable1,playerseats1,chips1,blinds1,dealer1,
-                b3,b4,b5,b6,b7,chips2,ntable1,myfast1,chipstart1,
-                name1,lowercut1)
-    draw1 = 2
   }
-  list(chips2=chips2,draw1=draw1)
+
+
+#skill equity
+skill_equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart1, decision1){
+  
+  b3 = deal1(numattable1)
+  b4 = bid1(numattable1,playerseats1, chips1, blinds1, dealer1, b3, ntable1, decision1) 
+  b5 = bid2(numattable1,playerseats1, blinds1, dealer1, b3,b4,2, ntable1, decision1) 
+  b6 = bid2(numattable1,playerseats1, blinds1, dealer1, b3,b5,3, ntable1, decision1) 
+  b7 = bid2(numattable1,playerseats1, blinds1, dealer1, b3,b6,4, ntable1, decision1) 
+  
+  # pre-flop equity
+  
+  # the flop equity
+  
+  # the turn equity
+  
+  # the river equity
+  
+  chips2 = calcwin1(numattable1,playerseats1, b3, b7)
+
   }
+
+#helper function - winning probability in each betting round
+win_prob = function(boardcards,boardsuits,player1cards,player1suits,player2cards,player2suits){
+  winning_prob = c()
+  p1_value = handeval(c(boardcards,player1cards),c(boardsuits,player1suits))
+  p2_value = handeval(c(boardcards,player2cards),c(boardsuits,player2suits))
+  winning_prob[1] = p1_value/(p1_value+p2_value)
+  winning_prob[2] = p2_value/(p1_value+p2_value)
+  return(winning_prob)
+}
 
 # Example
 numattable1 = 2
@@ -40,17 +63,6 @@ myfast1 = 2
 t1 = 0.5
 t2 = 1
 chipstart1 = 100
-lowercut1 = 10
 decision1 = list(gravity, tommy)
 
-#skill equity
-skill_equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, myfast1, t1, t2,
-                        chipstart1, lowercut1, decision1){
 
-  }
-
-#helper function - winning probability in each betting round
-win_prob = function(numattable1, playerseats1, chips1, blinds1, dealer1, myfast1, t1, t2,
-                    chipstart1,lowercut1, decision1){
-
-  }
