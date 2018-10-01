@@ -81,16 +81,15 @@ win_prob = function(boardcards,boardsuits,player1cards,player1suits,player2cards
 }
 
 # Example
-
 numattable1 = 2
 playerseats1 = c(2,1)
 chips1 = c(100,100)
 blinds1 = c(10,20)
 dealer1 = 1
 chipstart1 = 100
-decision1 = list(gravity, tommy) # change to other type of players
+decision1 = list(yosef, zelda) # change to other type of players
 
-result = matrix(, nrow = 100, ncol = 4)
+result = matrix(nrow = 100, ncol = 4)
 for(i in 1:100){
   result[i,] = equity(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart1, decision1)
 }
