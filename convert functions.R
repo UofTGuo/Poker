@@ -14,7 +14,7 @@ card.convert <- function(hand, board="NULL") {
 		if (list[[1]][2*o-1] %in% Clett) {
 			for (i in 1:5) {
 				if (list[[1]][2*o-1] %in% Clett[i]) {
-					list[[1]][2*o-1] <- as.numeric(Cnumb[i])
+					list[[1]][2*o-1] <- Cnumb[i]
 				}
 			}	
 		}
@@ -25,14 +25,14 @@ card.convert <- function(hand, board="NULL") {
 		if (list[[1]][2*e] %in% Slett) {
 			for (i in 1:4) {
 				if (list[[1]][2*e] %in% Slett[i]) {
-					list[[1]][2*e] <- as.numeric(Snumb[i])
+					list[[1]][2*e] <- Snumb[i]
 				}
 			}
 		}
 		plsuit1[e] <- list[[1]][2*e]
 	}		
-	plnum1 <- t(plnum1)
-	plsuit1 <- t(plsuit1)
+	plnum1 <- apply(t(plnum1),c(1,2),as.numeric)
+	plsuit1 <- apply(t(plsuit1),c(1,2),as.numeric)
 
 	brdnum1 <- c()
 	brdsuit1 <- c()
@@ -43,7 +43,7 @@ card.convert <- function(hand, board="NULL") {
 			if (blist[[1]][2*o-1] %in% Clett) {
 				for (i in 1:5) {
 					if (blist[[1]][2*o-1] %in% Clett[i]) {
-						blist[[1]][2*o-1] <- as.numeric(Cnumb[i])
+						blist[[1]][2*o-1] <- Cnumb[i]
 					}
 				}	
 			}
@@ -54,13 +54,15 @@ card.convert <- function(hand, board="NULL") {
 			if (blist[[1]][2*e] %in% Slett) {
 				for (i in 1:4) {
 					if (blist[[1]][2*e] %in% Slett[i]) {
-						blist[[1]][2*e] <- as.numeric(Snumb[i])
+						blist[[1]][2*e] <- Snumb[i]
 					}
 				}
 			}
 			brdsuit1[e] <- blist[[1]][2*e]
 		}
-	}	
+		brdnum1 <- as.numeric(brdnum1)
+		brdsuit1 <- as.numeric(brdsuit1)
+	}
 	return(list(plnum1=plnum1, plsuit1=plsuit1, brdnum1=brdnum1, brdsuit1=brdsuit1))
 }
 
