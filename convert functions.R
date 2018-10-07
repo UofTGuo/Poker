@@ -5,9 +5,11 @@ card.convert <- function(hand, board="NULL") {
 	Cnumb <- c(10,11,12,13,14)
 	Slett <- c("d","c","h","s")
 	Snumb <- c(1,2,3,4)
-	list <- strsplit(hand,split="") #split cards into individual elements
-	plnum1 <- matrix(0,2,2)  #initialize matrices
-	plsuit1 <- matrix(0,2,2) #
+	
+	#convert hand
+	list <- strsplit(hand,split="")	#split cards into individual elements
+	plnum1 <- matrix(0,2,2)		#initialize matrices
+	plsuit1 <- matrix(0,2,2)	#
 	
 	#convert cards (in positions 1,3,5,7) to numbers
 	for (o in 1:(length(list[[1]])/2)) {
@@ -33,11 +35,24 @@ card.convert <- function(hand, board="NULL") {
 	}		
 	plnum1 <- apply(t(plnum1),c(1,2),as.numeric)
 	plsuit1 <- apply(t(plsuit1),c(1,2),as.numeric)
+	
+	#sort hands
+	for (i in 1:2){
+		if(plnum1[i,1]<plnum1[i,2]){
+			save <- plnum1[i,1]
+			plnum1[i,1] <- plnum1[i,2]
+			plnum1[i,2] <- save
+			save <- plsuit1[i,1]
+			plsuit1[i,1] <- plsuit1[i,2]
+			plsuit1[i,2] <- save
+		}
+	}
 
-	brdnum1 <- c()
-	brdsuit1 <- c()
+	#convert board
+	brdnum1 <- c()	#initialize vectors
+	brdsuit1 <- c()	#
 	if (board!="NULL"){
-		blist <- strsplit(board,split="") #split cards into individual elements
+		blist <- strsplit(board,split="")	#split cards into individual elements
 		#convert cards (in positions 1,3,5,7,9) to numbers
 		for (o in 1:(length(blist[[1]])/2)) {
 			if (blist[[1]][2*o-1] %in% Clett) {
@@ -68,6 +83,7 @@ card.convert <- function(hand, board="NULL") {
 
 #Examples
 #card.convert("AcJs")
+#card.convert("JsAc")
 #card.convert("AcJs3d2d")
 #card.convert("AcJs3d2d","Kc5sQc")
 #card.convert("AcJs3d2d","Kc5sQc5d6d")
