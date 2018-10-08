@@ -82,8 +82,8 @@ card.convert <- function(hand, board="NULL") {
 }
 
 #Examples
-#card.convert("AcJs")
-#card.convert("JsAc")
-#card.convert("AcJs3d2d")
-#card.convert("AcJs3d2d","Kc5sQc")
-#card.convert("AcJs3d2d","Kc5sQc5d6d")
+card.convert("AcJs")
+card.convert("JsAc")
+card.convert("AcJs3d2d")
+card.convert("AcJs3d2d","Kc5sQc")
+card.convert("AcJs3d2d","Kc5sQc5d6d")
