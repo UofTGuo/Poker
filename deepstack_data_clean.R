@@ -52,15 +52,23 @@ ds_betting = function(ds_data){
     }
     
     if (ds_data$PreFlop[i] == "f"){
+      #rb[1,1] =+
+      #rb[2,1] =+
     }
     
     if (ds_data$Flop[i] == ""){
+      #rb[1,2] = 
+      #rb[2,2] = 
     }
     
     if (ds_data$Turn[i] == ""){
+      #rb[1,3] = 
+      #rb[2,3] = 
     }
     
     if (ds_data$River[i] == ""){
+      #rb[1,4] = 
+      #rb[2,4] =
     }
     
   }
