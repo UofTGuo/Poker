@@ -6,5 +6,13 @@ library(holdem)
 
 #DeepStack 
 
+#Luck equity
+
+#Skill equity
+
 
 #Simulated Data
+
+#Luck equity
+
+#Skill equity
