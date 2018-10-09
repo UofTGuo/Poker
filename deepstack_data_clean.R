@@ -21,12 +21,50 @@ names(ds_data) = as.matrix(ds_data[1,])
 #remove first row
 ds_data = ds_data[-1,]
 
+#Take first 10K data points
+ds_data = ds_data[1:10000,]
+
+ds_data$`Big|Small` = as.character(ds_data$`Big|Small`)
+split_blind = strsplit(ds_data$`Big|Small`,split="|",fixed = T)
+
+for(i in 1:(dim(ds_data)[1])){
+  ds_data$big_blind[i] = split_blind[[i]][1]
+  ds_data$small_blind[i] = split_blind[[i]][2]
+}
+
+ds_data$big_blind = gsub(" ","",ds_data$big_blind)
+ds_data$small_blind = gsub(" ","",ds_data$small_blind)
+
 #Implement betting functions
-ds_betting = function(data){
+ds_betting = function(ds_data){
   result = c()
-  for(i in 1:(dim(data)[1])){
+  
+  for(i in 1:(dim(ds_data)[1])){
+    # first column is DeepStack, and the second column is the professional player
     rb = matrix(nrow = 2, ncol = 4)
+    if (ds_data$big_blind[i] = "DeepStack"){
+      rb[1,1] = 100
+      rb[2,1] = 50
+    }
+    if (ds_data$small_blind[i] = "DeepStack"){
+      rb[1,1] = 50
+      rb[2,1] = 100
+    }
+    
+    if (ds_data$PreFlop[i] == "f"){
+    }
+    
+    if (ds_data$Flop[i] == ""){
+    }
+    
+    if (ds_data$Turn[i] == ""){
+    }
+    
+    if (ds_data$River[i] == ""){
+    }
+    
   }
+  
   return(result)
 }
   
