@@ -16,3 +16,7 @@ library(holdem)
 #Luck equity
 
 #Skill equity
+
+#Comparison Plots (DeepStack vs. Simulation)
+
+#Comparison Plots (Different type of players e.g. yosef vs. zelda)
