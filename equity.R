@@ -1,4 +1,5 @@
 library("holdem")
+options(digits=6)
 
 #equity
 equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart1, decision1){
@@ -80,19 +81,50 @@ win_prob = function(boardcards,boardsuits,player1cards,player1suits,player2cards
   return(winning_prob)
 }
 
+avg_equity = function(numattable, playerseats, chips, blinds, dealer, chipstart, decision, num_hand){
+  result = matrix(nrow = num_hand, ncol = 4)
+  for(i in 1:num_hand){
+    result[i,] = equity(numattable, playerseats, chips, blinds, dealer, chipstart, decision)
+  }
+  return(c(mean(result[,1]),mean(result[,2]),mean(result[,3]),mean(result[,4])))
+}
+
 # Example
 numattable1 = 2
 playerseats1 = c(2,1)
-chips1 = c(100,100)
+chips1 = c(1000,1000)
 blinds1 = c(10,20)
 dealer1 = 1
-chipstart1 = 100
-decision1 = list(yosef, zelda) # change to other type of players
+chipstart1 = 1000
+decision1 = list(zelda, vera) 
+decision2 = list(zelda, william)
+decision3 = list(zelda,tommy)
+decision4 = list(vera, william)
 
-result = matrix(nrow = 100, ncol = 4)
-for(i in 1:100){
-  result[i,] = equity(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart1, decision1)
-}
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision1,20)
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision1,50)
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision1,100)
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision1,200)
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision1,300)
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision1,1000)
 
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision2,20)
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision2,50)
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision2,100)
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision2,200)
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision2,300)
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision2,1000)
 
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision3,20)
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision3,50)
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision3,100)
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision3,200)
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision3,300)
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision3,1000)
 
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision4,20)
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision4,50)
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision4,100)
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision4,200)
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision4,300)
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision4,1000)
