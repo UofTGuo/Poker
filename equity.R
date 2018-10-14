@@ -45,8 +45,7 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
     p1_luck_equity = p1_luck_equity + pre_flop_win_prob[1]*(b4$rb[1,1]+b4$rb[2,1]) - b4$rb[1,1]
     p2_luck_equity = p2_luck_equity + pre_flop_win_prob[2]*(b4$rb[1,1]+b4$rb[2,1]) - b4$rb[2,1]
     return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
-    break
-    }
+  }
   
   p1_luck_equity = p1_luck_equity + pre_flop_win_prob[1]*(2*blinds1[2]) - blinds1[2]
   p2_luck_equity = p2_luck_equity + pre_flop_win_prob[2]*(2*blinds1[2]) - blinds1[2]
@@ -89,9 +88,9 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
   river_win_prob = win_prob(dealt_index,"river", iters)
   p1_luck_equity = p1_luck_equity + (river_win_prob[1]-pre_flop_win_prob[1])*b6$p1
   p2_luck_equity = p2_luck_equity + (river_win_prob[2]-pre_flop_win_prob[2])*b6$p1
-  p1_skill_equity = p1_skill_equity + (river_win_prob[1])*(b7$p1-b6$p1) - b7$rb[1,3]
-  p2_skill_equity = p2_skill_equity + (river_win_prob[2])*(b7$p1-b6$p1) - b7$rb[2,3]
-
+  p1_skill_equity = p1_skill_equity + (river_win_prob[1])*(b7$p1-b6$p1) - b7$rb[1,4]
+  p2_skill_equity = p2_skill_equity + (river_win_prob[2])*(b7$p1-b6$p1) - b7$rb[2,4]
+  
   return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
 }
 
