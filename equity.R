@@ -2,9 +2,10 @@ library("holdem")
 options(digits=6)
 
 #equity
-equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart1, decision1){
+equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart1, decision1, iters){
   
-  #strflsh1
+  #strflsh1 example to check the equity function
+  
   #boardcards = c(4,5,6,8,13)
   #boardsuits = c(2,3,2,2,2)
   #player1cards = c(2,3)
@@ -17,19 +18,34 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
   p1_skill_equity = 0
   p2_skill_equity = 0
   
-  player1cards = pre_flop$num[1:2]
-  player2cards = pre_flop$num[3:4]
-  player1suits = pre_flop$st[1:2]
-  player2suits = pre_flop$st[3:4]
+  dealt_index = sample_cards(numattable1)
+  player_index = dealt_index[1:(2*numattable1)]
+  player_info = switch2(player_index)
+  board_index = dealt_index[(2*numattable1+1):(2*numattable1+5)]
+  board_info = switch2(board_index)
+  
+  player1cards = player_info$num[1:2]
+  player2cards = player_info$num[3:4]
+  player1suits = player_info$st[1:2]
+  player2suits = player_info$st[3:4]
+  
+  #Define b3
+  b3 = deal1(numattable1)
+  b3$plnum1[1,] = player1cards
+  b3$plnum1[2,] = player2cards
+  b3$plsuit1[1,] = player1suits
+  b3$plsuit1[2,] = player2suits
+  b3$brdnum1 =  board_info$num
+  b3$brdsuit1 = board_info$st
   
   # pre-flop equity
-  b4 = bid1(numattable1,playerseats1, chips1, blinds1, dealer1, b3, ntable1, decision3) 
-  #pre_flop_win_prob = win_prob(c(),c(),player1cards,player1suits,player2cards,player2suits)
-  pre_flop_win_prob = win_prob()
+  b4 = bid1(numattable1,playerseats1, chips1, blinds1, dealer1, b3, ntable1, decision1) 
+  pre_flop_win_prob = win_prob(dealt_index,"pre_flop", iters)
   
   if(b4$rb[1,1] == 20 && b4$rb[2,1] == 10){
     p1_luck_equity =+ pre_flop_win_prob[1]*(b4$rb[1,1]+b4$rb[2,1]) - b4$rb[1,1]
     p2_luck_equity =+ pre_flop_win_prob[2]*(b4$rb[1,1]+b4$rb[2,1]) - b4$rb[2,1]
+    return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
     }
   else{
     p1_luck_equity =+ pre_flop_win_prob[1]*(2*blinds1[2]) - blinds1[2]
@@ -37,47 +53,40 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
     p1_skill_equity =+ pre_flop_win_prob[1]*(b4$p1-2*blinds1[2]) - (b4$rb[1,1] - blinds1[2])
     p2_skill_equity =+ pre_flop_win_prob[2]*(b4$p1-2*blinds1[2]) - (b4$rb[2,1] - blinds1[2])
     }
-  #pre_flop_chip = calcwin1(numattable1,playerseats1, b3, b4)
   
   # the flop equity
   if(b4$all1 == 2){
     return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
-    break
   }
   b5 = bid2(numattable1,playerseats1, blinds1, dealer1, b3,b4,2, ntable1, decision1) 
-  flop_win_prob = win_prob(b3$brdnum1[1:3],b3$brdsuit1[1:3],player1cards,player1suits,player2cards,player2suits)
+  flop_win_prob = win_prob(dealt_index,"flop", iters)
   p1_luck_equity =+ (flop_win_prob[1]-pre_flop_win_prob[1])*b4$p1
   p2_luck_equity =+ (flop_win_prob[2]-pre_flop_win_prob[2])*b4$p1
   p1_skill_equity =+ (flop_win_prob[1])*(b5$p1-b4$p1) - b5$rb[1,2]
   p2_skill_equity =+ (flop_win_prob[2])*(b5$p1-b4$p1) - b5$rb[2,2]
-  #flop_chip = calcwin1(numattable1,playerseats1, b3, b5)
   
   # the turn equity
   if(b5$all1 == 2){
     return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
-    break
   }
   b6 = bid2(numattable1,playerseats1, blinds1, dealer1, b3,b5,3, ntable1, decision1)
-  turn_win_prob = win_prob(b3$brdnum1[1:4],b3$brdsuit1[1:4],player1cards,player1suits,player2cards,player2suits)
+  turn_win_prob = win_prob(dealt_index,"turn", iters)
   p1_luck_equity =+ (turn_win_prob[1]-pre_flop_win_prob[1])*b5$p1
   p2_luck_equity =+ (turn_win_prob[2]-pre_flop_win_prob[2])*b5$p1
   p1_skill_equity =+ (turn_win_prob[1])*(b6$p1-b5$p1) - b6$rb[1,3]
   p2_skill_equity =+ (turn_win_prob[2])*(b6$p1-b5$p1) - b6$rb[2,3]
-  #turn_chip = calcwin1(numattable1,playerseats1, b3, b6)
   
   # the river equity
   if(b6$all1 == 2){
     return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
-    break
   }
   b7 = bid2(numattable1,playerseats1, blinds1, dealer1, b3,b6,4, ntable1, decision1)
-  river_win_prob = win_prob(b3$brdnum1,b3$brdsuit1,player1cards,player1suits,player2cards,player2suits)
+  river_win_prob = win_prob(dealt_index,"river", iters)
   p1_luck_equity =+ (river_win_prob[1]-pre_flop_win_prob[1])*b6$p1
   p2_luck_equity =+ (river_win_prob[2]-pre_flop_win_prob[2])*b6$p1
   p1_skill_equity =+ (river_win_prob[1])*(b7$p1-b6$p1) - b7$rb[1,3]
   p2_skill_equity =+ (river_win_prob[2])*(b7$p1-b6$p1) - b7$rb[2,3]
-  #river_chip = calcwin1(numattable1,playerseats1, b3, b7)
-  
+
   return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
 }
 
@@ -135,7 +144,7 @@ win_prob = function(dealt_index, round, iters){
   player2suits = player_info$st[3:4]
   
   #monte carlo method
-  win_prob = c()
+  winprob = c()
   temp = 0
   for (i in 1:iters) {
     if(round == "pre_flop"){
@@ -179,9 +188,9 @@ win_prob = function(dealt_index, round, iters){
       if(p1_value >= p2_value){temp =+ 1}
     }
   }
-  win_prob[1] = temp/iters 
-  win_prob[2] = 1-win_prob[1]
-  return(win_prob)
+  winprob[1] = temp/iters 
+  winprob[2] = 1-winprob[1]
+  return(winprob)
 }
 
 #Example
@@ -189,14 +198,14 @@ win_prob = function(dealt_index, round, iters){
 #dealt_index = sample_cards(numattable1)
 #win_prob(dealt_index,"pre_flop",3)
 
-avg_equity = function(numattable, playerseats, chips, blinds, dealer, chipstart, decision, num_hand){
+avg_equity = function(numattable, playerseats, chips, blinds, dealer, chipstart, decision, num_hand, iters){
   result = matrix(nrow = num_hand, ncol = 4)
   result_one = c()
   result_two = c()
   result_three = c()
   result_four = c()
   for(i in 1:num_hand){
-    temp = equity(numattable, playerseats, chips, blinds, dealer, chipstart, decision)
+    temp = equity(numattable, playerseats, chips, blinds, dealer, chipstart, decision,iters)
     print(temp)
     result_one = c(result_one, temp[1])
     result_two = c(result_two,temp[2])
@@ -207,41 +216,42 @@ avg_equity = function(numattable, playerseats, chips, blinds, dealer, chipstart,
 }
 
 # Example
-#numattable1 = 2
-#playerseats1 = c(2,1)
-#chips1 = c(1000,1000)
-#blinds1 = c(10,20)
-#dealer1 = 1
-#chipstart1 = 1000
-#decision1 = list(zelda, vera) 
-#decision2 = list(zelda, william)
-#decision3 = list(zelda,tommy)
-#decision4 = list(vera, william)
+numattable1 = 2
+playerseats1 = c(2,1)
+chips1 = c(1000,1000)
+blinds1 = c(10,20)
+dealer1 = 1
+chipstart1 = 1000
+decision1 = list(zelda, vera) 
+decision2 = list(zelda, william)
+decision3 = list(zelda,tommy)
+decision4 = list(vera, william)
+iters = 10
 
-#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision1,20)
-#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision1,50)
-#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision1,100)
-#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision1,200)
-#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision1,300)
-#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision1,1000)
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision1,20,iters)
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision1,50,iters)
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision1,100,iters)
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision1,200,iters)
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision1,300,iters)
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision1,1000,iters)
 
-#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision2,20)
-#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision2,50)
-#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision2,100)
-#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision2,200)
-#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision2,300)
-#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision2,1000)
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision2,20,iters)
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision2,50,iters)
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision2,100,iters)
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision2,200,iters)
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision2,300,iters)
+avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision2,1000,iters)
 
-#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision3,20)
-#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision3,50)
-#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision3,100)
-#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision3,200)
-#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision3,300)
-#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision3,1000)
+#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision3,20,iters)
+#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision3,50,iters)
+#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision3,100,iters)
+#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision3,200,iters)
+#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision3,300,iters)
+#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision3,1000,iters)
 
-#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision4,20)
-#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision4,50)
-#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision4,100)
-#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision4,200)
-#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision4,300)
-#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision4,1000)
+#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision4,20,iters)
+#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision4,50,iters)
+#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision4,100,iters)
+#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision4,200,iters)
+#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision4,300,iters)
+#avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision4,1000,iters)
