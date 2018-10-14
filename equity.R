@@ -45,6 +45,7 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
     p1_luck_equity = p1_luck_equity + pre_flop_win_prob[1]*(b4$rb[1,1]+b4$rb[2,1]) - b4$rb[1,1]
     p2_luck_equity = p2_luck_equity + pre_flop_win_prob[2]*(b4$rb[1,1]+b4$rb[2,1]) - b4$rb[2,1]
     return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
+    break
     }
   
   p1_luck_equity = p1_luck_equity + pre_flop_win_prob[1]*(2*blinds1[2]) - blinds1[2]
