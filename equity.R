@@ -192,8 +192,8 @@ chips1 = c(1000,1000)
 blinds1 = c(10,20)
 dealer1 = 1
 chipstart1 = 1000
-decision1 = list(yosef,xena)
-#decision1 = list(zelda, vera) 
+
+decision1 = list(zelda, vera) 
 decision2 = list(zelda, william)
 decision3 = list(zelda,tommy)
 decision4 = list(vera, william)
