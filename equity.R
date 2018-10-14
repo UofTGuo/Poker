@@ -46,17 +46,17 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
     p2_luck_equity = p2_luck_equity + pre_flop_win_prob[2]*(b4$rb[1,1]+b4$rb[2,1]) - b4$rb[2,1]
     return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
     }
-  else{
-    p1_luck_equity = p1_luck_equity + pre_flop_win_prob[1]*(2*blinds1[2]) - blinds1[2]
-    p2_luck_equity = p2_luck_equity + pre_flop_win_prob[2]*(2*blinds1[2]) - blinds1[2]
-    p1_skill_equity = p1_skill_equity + pre_flop_win_prob[1]*(b4$p1-2*blinds1[2]) - (b4$rb[1,1] - blinds1[2])
-    p2_skill_equity = p2_skill_equity + pre_flop_win_prob[2]*(b4$p1-2*blinds1[2]) - (b4$rb[2,1] - blinds1[2])
-    }
+  
+  p1_luck_equity = p1_luck_equity + pre_flop_win_prob[1]*(2*blinds1[2]) - blinds1[2]
+  p2_luck_equity = p2_luck_equity + pre_flop_win_prob[2]*(2*blinds1[2]) - blinds1[2]
+  p1_skill_equity = p1_skill_equity + pre_flop_win_prob[1]*(b4$p1-2*blinds1[2]) - (b4$rb[1,1] - blinds1[2])
+  p2_skill_equity = p2_skill_equity + pre_flop_win_prob[2]*(b4$p1-2*blinds1[2]) - (b4$rb[2,1] - blinds1[2])
   
   # Flop equity
   if(b4$all1 == 2){
     return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
   }
+  
   b5 = bid2(numattable1,playerseats1, blinds1, dealer1, b3,b4,2, ntable1, decision1) 
   flop_win_prob = win_prob(dealt_index,"flop", iters)
   p1_luck_equity = p1_luck_equity + (flop_win_prob[1]-pre_flop_win_prob[1])*b4$p1
@@ -68,6 +68,7 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
   if(b5$all1 == 2){
     return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
   }
+  
   b6 = bid2(numattable1,playerseats1, blinds1, dealer1, b3, b5, 3, ntable1, decision1)
   turn_win_prob = win_prob(dealt_index, "turn", iters)
   p1_luck_equity = p1_luck_equity + (turn_win_prob[1]-pre_flop_win_prob[1])*b5$p1
@@ -79,6 +80,7 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
   if(b6$all1 == 2){
     return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
   }
+  
   b7 = bid2(numattable1, playerseats1, blinds1, dealer1, b3, b6, 4, ntable1, decision1)
   river_win_prob = win_prob(dealt_index,"river", iters)
   p1_luck_equity = p1_luck_equity + (river_win_prob[1]-pre_flop_win_prob[1])*b6$p1
@@ -129,7 +131,6 @@ win_prob = function(dealt_index, round, iters){
       if(p1_value >= p2_value){
         temp = temp + 1}
     }
-    
     if(round == "flop"){
       dealt_board = switch2(flop_index[5:7])
       board_index = sample(flop_left,2)
@@ -141,7 +142,6 @@ win_prob = function(dealt_index, round, iters){
       if(p1_value >= p2_value){
         temp = temp + 1}
     }
-    
     if(round == "turn"){
       dealt_board = switch2(turn_index[5:8])
       board_index = sample(turn_left,1)
@@ -153,7 +153,6 @@ win_prob = function(dealt_index, round, iters){
       if(p1_value >= p2_value){
         temp = temp + 1}
     }
-    
     if(round == "river"){
       dealt_board = switch2(river_index[5:8])
       boardcards = c(dealt_board$num)
@@ -171,7 +170,6 @@ win_prob = function(dealt_index, round, iters){
 
 # Calculating average equity
 avg_equity = function(numattable, playerseats, chips, blinds, dealer, chipstart, decision, num_hand, iters){
-  result = matrix(nrow = num_hand, ncol = 4)
   result_one = c()
   result_two = c()
   result_three = c()
@@ -187,7 +185,6 @@ avg_equity = function(numattable, playerseats, chips, blinds, dealer, chipstart,
   cat("final output", c(mean(result_one),mean(result_two),mean(result_three),mean(result_four)))
 }
 
-
 # Example
 numattable1 = 2
 playerseats1 = c(2,1)
@@ -195,7 +192,8 @@ chips1 = c(1000,1000)
 blinds1 = c(10,20)
 dealer1 = 1
 chipstart1 = 1000
-decision1 = list(zelda, vera) 
+decision1 = list(yosef,xena)
+#decision1 = list(zelda, vera) 
 decision2 = list(zelda, william)
 decision3 = list(zelda,tommy)
 decision4 = list(vera, william)
