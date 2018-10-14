@@ -1,10 +1,10 @@
-setwd("/Users/zhaoyuguo/Desktop/Poker Project/new/Poker")
+setwd("/Users/zhaoyuguo/Desktop/Poker Project/Poker")
 library(holdem)
 source("convert_functions.R")
 library(dplyr)
 
 #Reference data set, containing some important informations
-all_hands = read.csv("~/Desktop/Poker Project/new/Poker/data/all_hands.csv")
+all_hands = read.csv("~/Desktop/Poker Project/Poker/data/all_hands.csv")
 
 # Small blind goes first pre-flop
 # Big blind goes first post-flop
@@ -16,7 +16,7 @@ all_hands = read.csv("~/Desktop/Poker Project/new/Poker/data/all_hands.csv")
 # Card dealt legend: Player1|Player2/Flop/Turn/River
 # d/c/h/s: diamond/club/heart/spade
 
-ds_data = read.csv("~/Desktop/Poker Project/new/Poker/data/all_hands2.csv")
+ds_data = read.csv("~/Desktop/Poker Project/Poker/data/all_hands2.csv")
 names(ds_data) = as.matrix(ds_data[1,])
 #remove first row
 ds_data = ds_data[-1,]
@@ -26,6 +26,11 @@ ds_data = ds_data[1:10000,]
 
 ds_data$`Big|Small` = as.character(ds_data$`Big|Small`)
 split_blind = strsplit(ds_data$`Big|Small`,split="|",fixed = T)
+
+ds_data$PreFlop = as.character(ds_data$PreFlop)
+temp = strsplit(ds_data$PreFlop[2], "(?=[f])(?<=[0-9])|(?=[0-9])(?<=[f])", perl=TRUE)
+
+temp = strsplit(ds_data$PreFlop[1], "(r*[0-9])", perl=TRUE)
 
 for(i in 1:(dim(ds_data)[1])){
   ds_data$big_blind[i] = split_blind[[i]][1]

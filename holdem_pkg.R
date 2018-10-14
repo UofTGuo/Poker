@@ -238,8 +238,8 @@ tourn1(name1, decision1, chipstart1, bigstart1, inc1, winners1, myfast1, t1, t2,
 #strflsh1
 #boardcards = c(4,5,6,8,13)
 #boardsuits = c(2,3,2,2,2)
-boardcards = c()
-boardsuits = c()
+#boardcards = c()
+#boardsuits = c()
 player1cards = c(2,3)
 player1suits = c(2,1)
 player2cards = c(7,3)
