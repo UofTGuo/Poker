@@ -55,6 +55,7 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
   # Flop equity
   if(b4$all1 == 2){
     return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
+    break
   }
   
   b5 = bid2(numattable1,playerseats1, blinds1, dealer1, b3,b4,2, ntable1, decision1) 
@@ -67,6 +68,7 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
   # Turn equity
   if(b5$all1 == 2){
     return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
+    break
   }
   
   b6 = bid2(numattable1,playerseats1, blinds1, dealer1, b3, b5, 3, ntable1, decision1)
@@ -79,6 +81,7 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
   # River equity
   if(b6$all1 == 2){
     return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
+    break
   }
   
   b7 = bid2(numattable1, playerseats1, blinds1, dealer1, b3, b6, 4, ntable1, decision1)
