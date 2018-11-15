@@ -36,12 +36,19 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
   b4 = bid1(numattable1,playerseats1, chips1, blinds1, dealer1, b3, ntable1, decision1) 
   pre_flop_win_prob = win_prob(dealt_index,"pre_flop", iters)
   
+  # case of small blind directly folding
   if(b4$rb[1,1] == 100 && b4$rb[2,1] == 50){
-    p1_luck_equity = p1_luck_equity + pre_flop_win_prob[1]*(b4$rb[1,1]+b4$rb[2,1]) - b4$rb[1,1]
-    p2_luck_equity = p2_luck_equity + pre_flop_win_prob[2]*(b4$rb[1,1]+b4$rb[2,1]) - b4$rb[2,1]
+    #not sure???
+    p2_luck_equity = p2_luck_equity + max(((2*100*pre_flop_win_prob[2])-100),(-100/2))
+    p1_luck_equity = -p2_luck_equity
+    p2_skill_equity = 50 - p2_luck_equity
+    p1_skill_quity = -p2_skill_equity
+    
+    #p1_luck_equity = p1_luck_equity + pre_flop_win_prob[1]*(b4$rb[1,1]+b4$rb[2,1]) - b4$rb[1,1]
+    #p2_luck_equity = p2_luck_equity + pre_flop_win_prob[2]*(b4$rb[1,1]+b4$rb[2,1]) - b4$rb[2,1]
     return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
   }
-  
+  # case of small blind calling the big blind or raising a blind
   p1_luck_equity = p1_luck_equity + pre_flop_win_prob[1]*(2*blinds1[2]) - blinds1[2]
   p2_luck_equity = p2_luck_equity + pre_flop_win_prob[2]*(2*blinds1[2]) - blinds1[2]
   p1_skill_equity = p1_skill_equity + pre_flop_win_prob[1]*(b4$p1-2*blinds1[2]) - (b4$rb[1,1] - blinds1[2])
@@ -168,8 +175,12 @@ win_prob = function(dealt_index, round, iters){
     boardsuits = c(dealt_board$st)
     p1_value = handeval(c(boardcards,player1cards),c(boardsuits,player1suits))
     p2_value = handeval(c(boardcards,player2cards),c(boardsuits,player2suits))
-    if(p1_value >= p2_value){
+    if(p1_value > p2_value){
       return(c(1,0))
+      break
+    }
+    if(p1_value == p2_value){
+      return(c(0.5,0.5))
       break
     }
     else{
@@ -218,7 +229,7 @@ chipstart1 = 20000
 decision1 = list(marlon, martin) 
 decision2 = list(martin, marlon)
 decision3 = list(marlon, zelda)
-decision4 = list(zelda,marlon)
+decision4 = list(zelda, marlon)
 decision5 = list(martin,zelda)
 decision6 = list(zelda,martin)
 
@@ -253,7 +264,7 @@ sd(dec2_result_list[,4])
 
 dec3_result_list = matrix(nrow=M,ncol=4)
 for(i in 1:M){
-  result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision3,1000,iters)
+  dec3_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision3,1000,iters)
 }
 mean(dec3_result_list[,1])
 mean(dec3_result_list[,2])
@@ -266,7 +277,7 @@ sd(dec3_result_list[,4])
 
 dec4_result_list = matrix(nrow=M,ncol=4)
 for(i in 1:M){
-  result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision4,1000,iters)
+  dec4_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision4,1000,iters)
 }
 mean(dec4_result_list[,1])
 mean(dec4_result_list[,2])
@@ -279,7 +290,7 @@ sd(dec4_result_list[,4])
 
 dec5_result_list = matrix(nrow=M,ncol=4)
 for(i in 1:M){
-  result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision5,1000,iters)
+  dec5_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision5,1000,iters)
 }
 mean(dec5_result_list[,1])
 mean(dec5_result_list[,2])
@@ -292,7 +303,7 @@ sd(dec5_result_list[,4])
 
 dec6_result_list = matrix(nrow=M,ncol=4)
 for(i in 1:M){
-  result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision6,1000,iters)
+  dec6_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision6,1000,iters)
 }
 mean(dec6_result_list[,1])
 mean(dec6_result_list[,2])
