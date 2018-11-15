@@ -962,7 +962,7 @@ marlon = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1
   }
   #end of river
   min(a1, mychips1)
-} ## end of martin
+} ## end of marlon
 
 
 
