@@ -36,7 +36,7 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
   b4 = bid1(numattable1,playerseats1, chips1, blinds1, dealer1, b3, ntable1, decision1) 
   pre_flop_win_prob = win_prob(dealt_index,"pre_flop", iters)
   
-  if(b4$rb[1,1] == 20 && b4$rb[2,1] == 10){
+  if(b4$rb[1,1] == 100 && b4$rb[2,1] == 50){
     p1_luck_equity = p1_luck_equity + pre_flop_win_prob[1]*(b4$rb[1,1]+b4$rb[2,1]) - b4$rb[1,1]
     p2_luck_equity = p2_luck_equity + pre_flop_win_prob[2]*(b4$rb[1,1]+b4$rb[2,1]) - b4$rb[2,1]
     return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
@@ -203,25 +203,102 @@ avg_equity = function(numattable, playerseats, chips, blinds, dealer, chipstart,
     result_four = c(result_four,temp[4])
   }
   cat("final output", c(mean(result_one),mean(result_two),mean(result_three),mean(result_four)))
+  output = c(mean(result_one),mean(result_two),mean(result_three),mean(result_four))
+  return(output)
 }
 
 # Example
 numattable1 = 2
-playerseats1 = c(2,1)
+#playerseats1 = c(2,1)
 chips1 = c(20000,20000)
 blinds1 = c(50,100)
 dealer1 = 1
 chipstart1 = 20000
 
 decision1 = list(marlon, martin) 
-decision2 = list(marlon, zelda)
-decision3 = list(martin,zelda)
+decision2 = list(martin, marlon)
+decision3 = list(marlon, zelda)
+decision4 = list(zelda,marlon)
+decision5 = list(martin,zelda)
+decision6 = list(zelda,martin)
 
 iters = 1000
+M=10
 
-avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision1,1000,iters)
-avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision2,1000,iters)
-avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision3,1000,iters)
-avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision4,1000,iters)
+dec1_result_list = matrix(nrow=M,ncol=4)
+for(i in 1:M){
+ dec1_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision1,1000,iters)
+}
+mean(dec1_result_list[,1])
+mean(dec1_result_list[,2])
+mean(dec1_result_list[,3])
+mean(dec1_result_list[,4])
+sd(dec1_result_list[,1])
+sd(dec1_result_list[,2])
+sd(dec1_result_list[,3])
+sd(dec1_result_list[,4])
 
+dec2_result_list = matrix(nrow=M,ncol=4)
+for(i in 1:M){
+  dec2_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision2,1000,iters)
+}
+mean(dec2_result_list[,1])
+mean(dec2_result_list[,2])
+mean(dec2_result_list[,3])
+mean(dec2_result_list[,4])
+sd(dec2_result_list[,1])
+sd(dec2_result_list[,2])
+sd(dec2_result_list[,3])
+sd(dec2_result_list[,4])
 
+dec3_result_list = matrix(nrow=M,ncol=4)
+for(i in 1:M){
+  result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision3,1000,iters)
+}
+mean(dec3_result_list[,1])
+mean(dec3_result_list[,2])
+mean(dec3_result_list[,3])
+mean(dec3_result_list[,4])
+sd(dec3_result_list[,1])
+sd(dec3_result_list[,2])
+sd(dec3_result_list[,3])
+sd(dec3_result_list[,4])
+
+dec4_result_list = matrix(nrow=M,ncol=4)
+for(i in 1:M){
+  result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision4,1000,iters)
+}
+mean(dec4_result_list[,1])
+mean(dec4_result_list[,2])
+mean(dec4_result_list[,3])
+mean(dec4_result_list[,4])
+sd(dec4_result_list[,1])
+sd(dec4_result_list[,2])
+sd(dec4_result_list[,3])
+sd(dec4_result_list[,4])
+
+dec5_result_list = matrix(nrow=M,ncol=4)
+for(i in 1:M){
+  result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision5,1000,iters)
+}
+mean(dec5_result_list[,1])
+mean(dec5_result_list[,2])
+mean(dec5_result_list[,3])
+mean(dec5_result_list[,4])
+sd(dec5_result_list[,1])
+sd(dec5_result_list[,2])
+sd(dec5_result_list[,3])
+sd(dec5_result_list[,4])
+
+dec6_result_list = matrix(nrow=M,ncol=4)
+for(i in 1:M){
+  result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision6,1000,iters)
+}
+mean(dec6_result_list[,1])
+mean(dec6_result_list[,2])
+mean(dec6_result_list[,3])
+mean(dec6_result_list[,4])
+sd(dec6_result_list[,1])
+sd(dec6_result_list[,2])
+sd(dec6_result_list[,3])
+sd(dec6_result_list[,4])
