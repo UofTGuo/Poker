@@ -1,4 +1,7 @@
+#getwd()
+#setwd("/Users/zhaoyuguo/Desktop/Poker Project/Poker")
 library("holdem")
+source("new_players.R")
 options(digits=6)
 
 # calculating equity due to luck and equity due to skill
@@ -170,7 +173,13 @@ avg_equity = function(numattable, playerseats, chips, blinds, dealer, chipstart,
   result_three = c()
   result_four = c()
   for(i in 1:num_hand){
-    temp = equity(numattable, playerseats, chips, blinds, dealer, chipstart, decision,iters)
+    if((i%%2) == 0){
+      temp = equity(numattable, c(1,2), chips, blinds, dealer, chipstart, decision,iters)
+    }
+    if((i%%2) == 1){
+      temp = equity(numattable, c(2,1), chips, blinds, dealer, chipstart, decision,iters)
+    }
+    #temp = equity(numattable, playerseats, chips, blinds, dealer, chipstart, decision,iters)
     print(temp)
     result_one = c(result_one, temp[1])
     result_two = c(result_two,temp[2])
@@ -183,16 +192,16 @@ avg_equity = function(numattable, playerseats, chips, blinds, dealer, chipstart,
 # Example
 numattable1 = 2
 playerseats1 = c(2,1)
-chips1 = c(1000,1000)
-blinds1 = c(10,20)
+chips1 = c(20000,20000)
+blinds1 = c(50,100)
 dealer1 = 1
-chipstart1 = 1000
+chipstart1 = 20000
 
-decision1 = list(zelda, vera) 
-decision2 = list(zelda, william)
-decision3 = list(zelda,tommy)
-decision4 = list(vera, vera)
-iters = 100
+decision1 = list(marlon, martin) 
+decision2 = list(marlon, zelda)
+decision3 = list(martin,zelda)
+
+iters = 1000
 
 avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision1,1000,iters)
 avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision2,1000,iters)
