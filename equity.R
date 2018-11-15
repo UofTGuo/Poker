@@ -1,4 +1,7 @@
+#getwd()
+#setwd("/Users/zhaoyuguo/Desktop/Poker Project/Poker")
 library("holdem")
+source("new_players.R")
 options(digits=6)
 
 # calculating equity due to luck and equity due to skill
@@ -33,12 +36,19 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
   b4 = bid1(numattable1,playerseats1, chips1, blinds1, dealer1, b3, ntable1, decision1) 
   pre_flop_win_prob = win_prob(dealt_index,"pre_flop", iters)
   
-  if(b4$rb[1,1] == 20 && b4$rb[2,1] == 10){
-    p1_luck_equity = p1_luck_equity + pre_flop_win_prob[1]*(b4$rb[1,1]+b4$rb[2,1]) - b4$rb[1,1]
-    p2_luck_equity = p2_luck_equity + pre_flop_win_prob[2]*(b4$rb[1,1]+b4$rb[2,1]) - b4$rb[2,1]
+  # case of small blind directly folding
+  if(b4$rb[1,1] == 100 && b4$rb[2,1] == 50){
+    #not sure???
+    p2_luck_equity = p2_luck_equity + max(((2*100*pre_flop_win_prob[2])-100),(-100/2))
+    p1_luck_equity = -p2_luck_equity
+    p2_skill_equity = 50 - p2_luck_equity
+    p1_skill_quity = -p2_skill_equity
+    
+    #p1_luck_equity = p1_luck_equity + pre_flop_win_prob[1]*(b4$rb[1,1]+b4$rb[2,1]) - b4$rb[1,1]
+    #p2_luck_equity = p2_luck_equity + pre_flop_win_prob[2]*(b4$rb[1,1]+b4$rb[2,1]) - b4$rb[2,1]
     return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
   }
-  
+  # case of small blind calling the big blind or raising a blind
   p1_luck_equity = p1_luck_equity + pre_flop_win_prob[1]*(2*blinds1[2]) - blinds1[2]
   p2_luck_equity = p2_luck_equity + pre_flop_win_prob[2]*(2*blinds1[2]) - blinds1[2]
   p1_skill_equity = p1_skill_equity + pre_flop_win_prob[1]*(b4$p1-2*blinds1[2]) - (b4$rb[1,1] - blinds1[2])
@@ -93,7 +103,7 @@ sample_cards = function(numattable1){
   return(index)
 }
 
-# Calculating winning probability using Monte Carlo method
+# Calculate winning probability using Monte Carlo method and exact method.
 win_prob = function(dealt_index, round, iters){
   all_index = order(runif(52))
   pre_flop_index = dealt_index[1:(2*numattable1)]
@@ -115,8 +125,8 @@ win_prob = function(dealt_index, round, iters){
   #monte carlo method
   winprob = c()
   temp = 0
-  for (i in 1:iters) {
-    if(round == "pre_flop"){
+  if(round == "pre_flop"){
+    for(i in iters){
       board_index = sample(pre_flop_left,5)
       board_info = switch2(board_index)
       boardcards = board_info$num
@@ -126,9 +136,14 @@ win_prob = function(dealt_index, round, iters){
       if(p1_value >= p2_value){
         temp = temp + 1}
     }
-    if(round == "flop"){
+  }
+  #exact calculation
+  if(round == "flop"){
+    temp_flop = combn(flop_left,2)
+    flop_comb = length(temp_flop[1,])
+    for (j in 1:flop_comb){
       dealt_board = switch2(flop_index[5:7])
-      board_index = sample(flop_left,2)
+      board_index = temp_flop[,j]
       board_info = switch2(board_index)
       boardcards = c(dealt_board$num,board_info$num)
       boardsuits = c(dealt_board$st,board_info$st)
@@ -137,9 +152,14 @@ win_prob = function(dealt_index, round, iters){
       if(p1_value >= p2_value){
         temp = temp + 1}
     }
-    if(round == "turn"){
+  }
+  #exact calculation
+  if(round == "turn"){
+    temp_turn = combn(turn_left,1)
+    turn_comb = length(temp_turn)
+    for (k in 1:turn_comb){
       dealt_board = switch2(turn_index[5:8])
-      board_index = sample(turn_left,1)
+      board_index = temp_turn[k]
       board_info = switch2(board_index)
       boardcards = c(dealt_board$num,board_info$num)
       boardsuits = c(dealt_board$st,board_info$st)
@@ -147,15 +167,25 @@ win_prob = function(dealt_index, round, iters){
       p2_value = handeval(c(boardcards,player2cards),c(boardsuits,player2suits))
       if(p1_value >= p2_value){
         temp = temp + 1}
+      }
     }
-    if(round == "river"){
-      dealt_board = switch2(river_index[5:8])
-      boardcards = c(dealt_board$num)
-      boardsuits = c(dealt_board$st)
-      p1_value = handeval(c(boardcards,player1cards),c(boardsuits,player1suits))
-      p2_value = handeval(c(boardcards,player2cards),c(boardsuits,player2suits))
-      if(p1_value >= p2_value){
-        temp = temp + 1}
+  if(round == "river"){
+    dealt_board = switch2(river_index[5:8])
+    boardcards = c(dealt_board$num)
+    boardsuits = c(dealt_board$st)
+    p1_value = handeval(c(boardcards,player1cards),c(boardsuits,player1suits))
+    p2_value = handeval(c(boardcards,player2cards),c(boardsuits,player2suits))
+    if(p1_value > p2_value){
+      return(c(1,0))
+      break
+    }
+    if(p1_value == p2_value){
+      return(c(0.5,0.5))
+      break
+    }
+    else{
+      return(c(0,1)) 
+      break
     }
   }
   winprob[1] = temp/iters 
@@ -170,7 +200,13 @@ avg_equity = function(numattable, playerseats, chips, blinds, dealer, chipstart,
   result_three = c()
   result_four = c()
   for(i in 1:num_hand){
-    temp = equity(numattable, playerseats, chips, blinds, dealer, chipstart, decision,iters)
+    if((i%%2) == 0){
+      temp = equity(numattable, c(1,2), chips, blinds, dealer, chipstart, decision,iters)
+    }
+    if((i%%2) == 1){
+      temp = equity(numattable, c(2,1), chips, blinds, dealer, chipstart, decision,iters)
+    }
+    #temp = equity(numattable, playerseats, chips, blinds, dealer, chipstart, decision,iters)
     print(temp)
     result_one = c(result_one, temp[1])
     result_two = c(result_two,temp[2])
@@ -178,23 +214,102 @@ avg_equity = function(numattable, playerseats, chips, blinds, dealer, chipstart,
     result_four = c(result_four,temp[4])
   }
   cat("final output", c(mean(result_one),mean(result_two),mean(result_three),mean(result_four)))
+  output = c(mean(result_one),mean(result_two),mean(result_three),mean(result_four))
+  return(output)
 }
 
 # Example
 numattable1 = 2
-playerseats1 = c(2,1)
-chips1 = c(1000,1000)
-blinds1 = c(10,20)
+#playerseats1 = c(2,1)
+chips1 = c(20000,20000)
+blinds1 = c(50,100)
 dealer1 = 1
-chipstart1 = 1000
+chipstart1 = 20000
 
-decision1 = list(zelda, vera) 
-decision2 = list(zelda, william)
-decision3 = list(zelda,tommy)
-decision4 = list(vera, vera)
-iters = 100
+decision1 = list(marlon, martin) 
+decision2 = list(martin, marlon)
+decision3 = list(marlon, zelda)
+decision4 = list(zelda, marlon)
+decision5 = list(martin,zelda)
+decision6 = list(zelda,martin)
 
-avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision1,1000,iters)
-avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision2,1000,iters)
-avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision3,1000,iters)
-avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision4,1000,iters)
+iters = 1000
+M=10
+
+dec1_result_list = matrix(nrow=M,ncol=4)
+for(i in 1:M){
+ dec1_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision1,1000,iters)
+}
+mean(dec1_result_list[,1])
+mean(dec1_result_list[,2])
+mean(dec1_result_list[,3])
+mean(dec1_result_list[,4])
+sd(dec1_result_list[,1])
+sd(dec1_result_list[,2])
+sd(dec1_result_list[,3])
+sd(dec1_result_list[,4])
+
+dec2_result_list = matrix(nrow=M,ncol=4)
+for(i in 1:M){
+  dec2_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision2,1000,iters)
+}
+mean(dec2_result_list[,1])
+mean(dec2_result_list[,2])
+mean(dec2_result_list[,3])
+mean(dec2_result_list[,4])
+sd(dec2_result_list[,1])
+sd(dec2_result_list[,2])
+sd(dec2_result_list[,3])
+sd(dec2_result_list[,4])
+
+dec3_result_list = matrix(nrow=M,ncol=4)
+for(i in 1:M){
+  dec3_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision3,1000,iters)
+}
+mean(dec3_result_list[,1])
+mean(dec3_result_list[,2])
+mean(dec3_result_list[,3])
+mean(dec3_result_list[,4])
+sd(dec3_result_list[,1])
+sd(dec3_result_list[,2])
+sd(dec3_result_list[,3])
+sd(dec3_result_list[,4])
+
+dec4_result_list = matrix(nrow=M,ncol=4)
+for(i in 1:M){
+  dec4_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision4,1000,iters)
+}
+mean(dec4_result_list[,1])
+mean(dec4_result_list[,2])
+mean(dec4_result_list[,3])
+mean(dec4_result_list[,4])
+sd(dec4_result_list[,1])
+sd(dec4_result_list[,2])
+sd(dec4_result_list[,3])
+sd(dec4_result_list[,4])
+
+dec5_result_list = matrix(nrow=M,ncol=4)
+for(i in 1:M){
+  dec5_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision5,1000,iters)
+}
+mean(dec5_result_list[,1])
+mean(dec5_result_list[,2])
+mean(dec5_result_list[,3])
+mean(dec5_result_list[,4])
+sd(dec5_result_list[,1])
+sd(dec5_result_list[,2])
+sd(dec5_result_list[,3])
+sd(dec5_result_list[,4])
+
+dec6_result_list = matrix(nrow=M,ncol=4)
+for(i in 1:M){
+  dec6_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision6,1000,iters)
+}
+mean(dec6_result_list[,1])
+mean(dec6_result_list[,2])
+mean(dec6_result_list[,3])
+mean(dec6_result_list[,4])
+sd(dec6_result_list[,1])
+sd(dec6_result_list[,2])
+sd(dec6_result_list[,3])
+sd(dec6_result_list[,4])
