@@ -1,5 +1,5 @@
 #getwd()
-#setwd("/Users/zhaoyuguo/Desktop/Poker Project/Poker")
+setwd("/Users/zhaoyuguo/Desktop/Poker Project/Poker")
 library("holdem")
 source("new_players.R")
 options(digits=6)
@@ -38,12 +38,22 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
   
   # case of small blind directly folding
   if(b4$rb[1,1] == 100 && b4$rb[2,1] == 50){
-    p1_luck_equity = 2*b4$rb[1,1]*pre_flop_win_prob[1]-b4$rb[1,1]
-    p2_luck_equity = max(2*b4$rb[1,1]*pre_flop_win_prob[2]-b4$rb[1,1],-b4$rb[2,1])
-    p1_skill_equity = b4$rb[2,1] - p1_skill_equity
-    p2_skill_equity = -p1_luck_equity
+    
+    #Schoenberg's way
+    #p1_luck_equity = p1_luck_equity + min((2*b4$rb[1,1]*pre_flop_win_prob[1]-b4$rb[1,1]),rb[2,1])
+    #p2_luck_equity = p2_luck_equity + (2*b4$rb[1,1]*pre_flop_win_prob[2] - rb[1,1])
+    #p1_skill_equity = p1_skill_equity + b4$rb[2,1] - p1_luck_equity
+    #p2_skill_equity = p2_skill_equity - b4$rb[2,1] - p2_luck_equity
+    
+    #New Purposed way
+    p1_luck_equity = p1_luck_equity + (2*b4$rb[1,1]*pre_flop_win_prob[1] - b4$rb[1,1])
+    p2_luck_equity = p2_luck_equity + max((2*b4$rb[1,1]*pre_flop_win_prob[2]-b4$rb[1,1]),-b4$rb[2,1])
+    p1_skill_equity = p1_skill_equity + b4$rb[2,1] - p1_luck_equity
+    p2_skill_equity = p2_skill_equity - b4$rb[2,1] - p2_luck_equity
+    
     return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
   }
+  
   # case of small blind calling the big blind or raising a blind
   p1_luck_equity = p1_luck_equity + pre_flop_win_prob[1]*(2*blinds1[2]) - blinds1[2]
   p2_luck_equity = p2_luck_equity + pre_flop_win_prob[2]*(2*blinds1[2]) - blinds1[2]
@@ -216,96 +226,96 @@ avg_equity = function(numattable, playerseats, chips, blinds, dealer, chipstart,
 
 # Example
 numattable1 = 2
-#playerseats1 = c(2,1)
+playerseats1 = c(2,1)
 chips1 = c(20000,20000)
 blinds1 = c(50,100)
 dealer1 = 1
 chipstart1 = 20000
 
-decision1 = list(marlon, martin) 
-decision2 = list(martin, marlon)
-decision3 = list(marlon, zelda)
-decision4 = list(zelda, marlon)
-decision5 = list(martin,zelda)
-decision6 = list(zelda,martin)
+decision_one = list(marlon, martin) 
+decision_two = list(martin, marlon)
+decision_three = list(marlon, zelda)
+decision_four = list(zelda, marlon)
+decision_five = list(martin,zelda)
+decision_six = list(zelda,martin)
 
 iters = 1000
 M=10
 
 dec1_result_list = matrix(nrow=M,ncol=4)
 for(i in 1:M){
- dec1_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision1,1000,iters)
+ dec1_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision_one,1000,iters)
 }
 mean(dec1_result_list[,1])
 mean(dec1_result_list[,2])
 mean(dec1_result_list[,3])
 mean(dec1_result_list[,4])
-sd(dec1_result_list[,1])
-sd(dec1_result_list[,2])
-sd(dec1_result_list[,3])
-sd(dec1_result_list[,4])
+sd(dec1_result_list[,1])/sqrt(M)
+sd(dec1_result_list[,2])/sqrt(M)
+sd(dec1_result_list[,3])/sqrt(M)
+sd(dec1_result_list[,4])/sqrt(M)
 
 dec2_result_list = matrix(nrow=M,ncol=4)
 for(i in 1:M){
-  dec2_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision2,1000,iters)
+  dec2_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision_two,1000,iters)
 }
 mean(dec2_result_list[,1])
 mean(dec2_result_list[,2])
 mean(dec2_result_list[,3])
 mean(dec2_result_list[,4])
-sd(dec2_result_list[,1])
-sd(dec2_result_list[,2])
-sd(dec2_result_list[,3])
-sd(dec2_result_list[,4])
+sd(dec2_result_list[,1])/sqrt(M)
+sd(dec2_result_list[,2])/sqrt(M)
+sd(dec2_result_list[,3])/sqrt(M)
+sd(dec2_result_list[,4])/sqrt(M)
 
 dec3_result_list = matrix(nrow=M,ncol=4)
 for(i in 1:M){
-  dec3_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision3,1000,iters)
+  dec3_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision_three,1000,iters)
 }
 mean(dec3_result_list[,1])
 mean(dec3_result_list[,2])
 mean(dec3_result_list[,3])
 mean(dec3_result_list[,4])
-sd(dec3_result_list[,1])
-sd(dec3_result_list[,2])
-sd(dec3_result_list[,3])
-sd(dec3_result_list[,4])
+sd(dec3_result_list[,1])/sqrt(M)
+sd(dec3_result_list[,2])/sqrt(M)
+sd(dec3_result_list[,3])/sqrt(M)
+sd(dec3_result_list[,4])/sqrt(M)
 
 dec4_result_list = matrix(nrow=M,ncol=4)
 for(i in 1:M){
-  dec4_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision4,1000,iters)
+  dec4_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision_four,1000,iters)
 }
 mean(dec4_result_list[,1])
 mean(dec4_result_list[,2])
 mean(dec4_result_list[,3])
 mean(dec4_result_list[,4])
-sd(dec4_result_list[,1])
-sd(dec4_result_list[,2])
-sd(dec4_result_list[,3])
-sd(dec4_result_list[,4])
+sd(dec4_result_list[,1])/sqrt(M)
+sd(dec4_result_list[,2])/sqrt(M)
+sd(dec4_result_list[,3])/sqrt(M)
+sd(dec4_result_list[,4])/sqrt(M)
 
 dec5_result_list = matrix(nrow=M,ncol=4)
 for(i in 1:M){
-  dec5_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision5,1000,iters)
+  dec5_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision_five,1000,iters)
 }
 mean(dec5_result_list[,1])
 mean(dec5_result_list[,2])
 mean(dec5_result_list[,3])
 mean(dec5_result_list[,4])
-sd(dec5_result_list[,1])
-sd(dec5_result_list[,2])
-sd(dec5_result_list[,3])
-sd(dec5_result_list[,4])
+sd(dec5_result_list[,1])/sqrt(M)
+sd(dec5_result_list[,2])/sqrt(M)
+sd(dec5_result_list[,3])/sqrt(M)
+sd(dec5_result_list[,4])/sqrt(M)
 
 dec6_result_list = matrix(nrow=M,ncol=4)
 for(i in 1:M){
-  dec6_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision6,1000,iters)
+  dec6_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision_six,1000,iters)
 }
 mean(dec6_result_list[,1])
 mean(dec6_result_list[,2])
 mean(dec6_result_list[,3])
 mean(dec6_result_list[,4])
-sd(dec6_result_list[,1])
-sd(dec6_result_list[,2])
-sd(dec6_result_list[,3])
-sd(dec6_result_list[,4])
+sd(dec6_result_list[,1])/sqrt(M)
+sd(dec6_result_list[,2])/sqrt(M)
+sd(dec6_result_list[,3])/sqrt(M)
+sd(dec6_result_list[,4])/sqrt(M)
