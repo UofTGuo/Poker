@@ -132,7 +132,7 @@ win_prob = function(dealt_index, round, iters){
   winprob = c()
   temp = 0
   if(round == "pre_flop"){
-    for(i in iters){
+    for(i in 1:iters){
       board_index = sample(pre_flop_left,5)
       board_info = switch2(board_index)
       boardcards = board_info$num
@@ -140,7 +140,8 @@ win_prob = function(dealt_index, round, iters){
       p1_value = handeval(c(boardcards,player1cards),c(boardsuits,player1suits))
       p2_value = handeval(c(boardcards,player2cards),c(boardsuits,player2suits))
       if(p1_value >= p2_value){
-        temp = temp + 1}
+        temp = temp + 1
+        }
     }
   }
   #exact calculation
@@ -198,6 +199,8 @@ win_prob = function(dealt_index, round, iters){
   winprob[2] = 1-winprob[1]
   return(winprob)
 }
+
+
 
 # Calculating average equity
 avg_equity = function(numattable, playerseats, chips, blinds, dealer, chipstart, decision, num_hand, iters){
