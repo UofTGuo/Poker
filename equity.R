@@ -38,14 +38,10 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
   
   # case of small blind directly folding
   if(b4$rb[1,1] == 100 && b4$rb[2,1] == 50){
-    #not sure???
-    p2_luck_equity = p2_luck_equity + max(((2*100*pre_flop_win_prob[2])-100),(-100/2))
-    p1_luck_equity = -p2_luck_equity
-    p2_skill_equity = 50 - p2_luck_equity
-    p1_skill_quity = -p2_skill_equity
-    
-    #p1_luck_equity = p1_luck_equity + pre_flop_win_prob[1]*(b4$rb[1,1]+b4$rb[2,1]) - b4$rb[1,1]
-    #p2_luck_equity = p2_luck_equity + pre_flop_win_prob[2]*(b4$rb[1,1]+b4$rb[2,1]) - b4$rb[2,1]
+    p1_luck_equity = 2*b4$rb[1,1]*pre_flop_win_prob[1]-b4$rb[1,1]
+    p2_luck_equity = max(2*b4$rb[1,1]*pre_flop_win_prob[2]-b4$rb[1,1],-b4$rb[2,1])
+    p1_skill_equity = b4$rb[2,1] - p1_skill_equity
+    p2_skill_equity = -p1_luck_equity
     return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
   }
   # case of small blind calling the big blind or raising a blind
