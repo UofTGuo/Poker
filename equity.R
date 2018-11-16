@@ -1,5 +1,5 @@
-getwd()
-setwd("C:/Users/kenny/Desktop/poker/Poker")
+#getwd()
+#setwd("C:/Users/kenny/Desktop/poker/Poker")
 library("holdem")
 source("new_players.R")
 options(digits=6)
