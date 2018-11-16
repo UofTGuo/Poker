@@ -210,15 +210,15 @@ avg_equity = function(numattable, playerseats, chips, blinds, dealer, chipstart,
     if((i%%2) == 1){
       temp = equity(numattable, c(2,1), chips, blinds, dealer, chipstart, decision,iters)
     }
-    print(temp)
+    cat(c(temp,(chips[1]+temp[1]+temp[3]),(chips[2]+temp[2]+temp[4])),"\n")
     p1_luck = c(p1_luck, temp[1])
     p2_luck = c(p2_luck, temp[2])
     p1_skill = c(p1_skill, temp[3])
     p2_skill = c(p2_skill, temp[4])
-    p1_chip = c(p1_chip,(chips+temp[1]+temp[3]))
-    p2_chip = c(p2_chip,(chips+temp[2]+temp[4]))
+    p1_chip = c(p1_chip,(chips[1]+temp[1]+temp[3]))
+    p2_chip = c(p2_chip,(chips[2]+temp[2]+temp[4]))
   }
-  cat("final output", c(mean(p1_luck),mean(p2_luck),mean(p1_skill),mean(p2_skill),mean(p1_chip),mean(p2_chip)))
+  cat("final output", c(mean(p1_luck),mean(p2_luck),mean(p1_skill),mean(p2_skill),mean(p1_chip),mean(p2_chip)),"\n")
   output = c(mean(p1_luck),mean(p2_luck),mean(p1_skill),mean(p2_skill),mean(p1_chip),mean(p2_chip))
   return(output)
 }
@@ -260,7 +260,6 @@ sd(dec1_result_list[,3])/sqrt(M)
 sd(dec1_result_list[,4])/sqrt(M)
 sd(dec1_result_list[,5])/sqrt(M)
 sd(dec1_result_list[,6])/sqrt(M)
-
 
 dec2_result_list = matrix(nrow=M,ncol=4)
 for(i in 1:M){
