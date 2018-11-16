@@ -244,7 +244,7 @@ num_hand = 1000
 iters = 1000
 M=10
 
-dec1_result_list = matrix(nrow=M,ncol=4)
+dec1_result_list = matrix(nrow=M,ncol=6)
 for(i in 1:M){
  dec1_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision_one,num_hand,iters)
 }
@@ -261,7 +261,7 @@ sd(dec1_result_list[,4])/sqrt(M)
 sd(dec1_result_list[,5])/sqrt(M)
 sd(dec1_result_list[,6])/sqrt(M)
 
-dec2_result_list = matrix(nrow=M,ncol=4)
+dec2_result_list = matrix(nrow=M,ncol=6)
 for(i in 1:M){
   dec2_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision_two,num_hand,iters)
 }
@@ -278,7 +278,7 @@ sd(dec2_result_list[,4])/sqrt(M)
 sd(dec2_result_list[,5])/sqrt(M)
 sd(dec2_result_list[,6])/sqrt(M)
 
-dec3_result_list = matrix(nrow=M,ncol=4)
+dec3_result_list = matrix(nrow=M,ncol=6)
 for(i in 1:M){
   dec3_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision_three,num_hand,iters)
 }
@@ -295,7 +295,7 @@ sd(dec3_result_list[,4])/sqrt(M)
 sd(dec3_result_list[,5])/sqrt(M)
 sd(dec3_result_list[,6])/sqrt(M)
 
-dec4_result_list = matrix(nrow=M,ncol=4)
+dec4_result_list = matrix(nrow=M,ncol=6)
 for(i in 1:M){
   dec4_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision_four,num_hand,iters)
 }
@@ -312,7 +312,7 @@ sd(dec4_result_list[,4])/sqrt(M)
 sd(dec4_result_list[,5])/sqrt(M)
 sd(dec4_result_list[,6])/sqrt(M)
 
-dec5_result_list = matrix(nrow=M,ncol=4)
+dec5_result_list = matrix(nrow=M,ncol=6)
 for(i in 1:M){
   dec5_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision_five,num_hand,iters)
 }
@@ -329,7 +329,7 @@ sd(dec5_result_list[,4])/sqrt(M)
 sd(dec5_result_list[,5])/sqrt(M)
 sd(dec5_result_list[,6])/sqrt(M)
 
-dec6_result_list = matrix(nrow=M,ncol=4)
+dec6_result_list = matrix(nrow=M,ncol=6)
 for(i in 1:M){
   dec6_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision_six,num_hand,iters)
 }
