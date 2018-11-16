@@ -1,5 +1,5 @@
-#getwd()
-setwd("/Users/zhaoyuguo/Desktop/Poker Project/Poker")
+getwd()
+setwd("C:/Users/kenny/Desktop/poker/Poker")
 library("holdem")
 source("new_players.R")
 options(digits=6)
@@ -200,14 +200,9 @@ win_prob = function(dealt_index, round, iters){
   return(winprob)
 }
 
-
-
 # Calculating average equity
 avg_equity = function(numattable, playerseats, chips, blinds, dealer, chipstart, decision, num_hand, iters){
-  result_one = c()
-  result_two = c()
-  result_three = c()
-  result_four = c()
+  p1_luck = p2_luck = p1_skill = p2_skill = p1_chip = p2_chip = c()
   for(i in 1:num_hand){
     if((i%%2) == 0){
       temp = equity(numattable, c(1,2), chips, blinds, dealer, chipstart, decision,iters)
@@ -215,110 +210,139 @@ avg_equity = function(numattable, playerseats, chips, blinds, dealer, chipstart,
     if((i%%2) == 1){
       temp = equity(numattable, c(2,1), chips, blinds, dealer, chipstart, decision,iters)
     }
-    #temp = equity(numattable, playerseats, chips, blinds, dealer, chipstart, decision,iters)
     print(temp)
-    result_one = c(result_one, temp[1])
-    result_two = c(result_two,temp[2])
-    result_three = c(result_three,temp[3])
-    result_four = c(result_four,temp[4])
+    p1_luck = c(p1_luck, temp[1])
+    p2_luck = c(p2_luck, temp[2])
+    p1_skill = c(p1_skill, temp[3])
+    p2_skill = c(p2_skill, temp[4])
+    p1_chip = c(p1_chip,(chips+temp[1]+temp[3]))
+    p2_chip = c(p2_chip,(chips+temp[2]+temp[4]))
   }
-  cat("final output", c(mean(result_one),mean(result_two),mean(result_three),mean(result_four)))
-  output = c(mean(result_one),mean(result_two),mean(result_three),mean(result_four))
+  cat("final output", c(mean(p1_luck),mean(p2_luck),mean(p1_skill),mean(p2_skill),mean(p1_chip),mean(p2_chip)))
+  output = c(mean(p1_luck),mean(p2_luck),mean(p1_skill),mean(p2_skill),mean(p1_chip),mean(p2_chip))
   return(output)
 }
 
 # Example
 numattable1 = 2
-playerseats1 = c(2,1)
 chips1 = c(20000,20000)
 blinds1 = c(50,100)
 dealer1 = 1
 chipstart1 = 20000
 
-decision_one = list(marlon, martin) 
-decision_two = list(martin, marlon)
-decision_three = list(marlon, zelda)
-decision_four = list(zelda, marlon)
-decision_five = list(martin,zelda)
-decision_six = list(zelda,martin)
+decision_one = list(marlon, marly) 
+decision_two = list(marlon, martin)
+decision_three = list(marlon, marty)
+decision_four = list(marly, martin)
+decision_five = list(marly, marty)
+decision_six = list(martin, marty)
 
+# Sanity check
+# decision_one = list(marly, marlon)
+
+num_hand = 1000
 iters = 1000
 M=10
 
 dec1_result_list = matrix(nrow=M,ncol=4)
 for(i in 1:M){
- dec1_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision_one,1000,iters)
+ dec1_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision_one,num_hand,iters)
 }
 mean(dec1_result_list[,1])
 mean(dec1_result_list[,2])
 mean(dec1_result_list[,3])
 mean(dec1_result_list[,4])
+mean(dec1_result_list[,5])
+mean(dec1_result_list[,6])
 sd(dec1_result_list[,1])/sqrt(M)
 sd(dec1_result_list[,2])/sqrt(M)
 sd(dec1_result_list[,3])/sqrt(M)
 sd(dec1_result_list[,4])/sqrt(M)
+sd(dec1_result_list[,5])/sqrt(M)
+sd(dec1_result_list[,6])/sqrt(M)
+
 
 dec2_result_list = matrix(nrow=M,ncol=4)
 for(i in 1:M){
-  dec2_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision_two,1000,iters)
+  dec2_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision_two,num_hand,iters)
 }
 mean(dec2_result_list[,1])
 mean(dec2_result_list[,2])
 mean(dec2_result_list[,3])
 mean(dec2_result_list[,4])
+mean(dec2_result_list[,5])
+mean(dec2_result_list[,6])
 sd(dec2_result_list[,1])/sqrt(M)
 sd(dec2_result_list[,2])/sqrt(M)
 sd(dec2_result_list[,3])/sqrt(M)
 sd(dec2_result_list[,4])/sqrt(M)
+sd(dec2_result_list[,5])/sqrt(M)
+sd(dec2_result_list[,6])/sqrt(M)
 
 dec3_result_list = matrix(nrow=M,ncol=4)
 for(i in 1:M){
-  dec3_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision_three,1000,iters)
+  dec3_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision_three,num_hand,iters)
 }
 mean(dec3_result_list[,1])
 mean(dec3_result_list[,2])
 mean(dec3_result_list[,3])
 mean(dec3_result_list[,4])
+mean(dec3_result_list[,5])
+mean(dec3_result_list[,6])
 sd(dec3_result_list[,1])/sqrt(M)
 sd(dec3_result_list[,2])/sqrt(M)
 sd(dec3_result_list[,3])/sqrt(M)
 sd(dec3_result_list[,4])/sqrt(M)
+sd(dec3_result_list[,5])/sqrt(M)
+sd(dec3_result_list[,6])/sqrt(M)
 
 dec4_result_list = matrix(nrow=M,ncol=4)
 for(i in 1:M){
-  dec4_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision_four,1000,iters)
+  dec4_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision_four,num_hand,iters)
 }
 mean(dec4_result_list[,1])
 mean(dec4_result_list[,2])
 mean(dec4_result_list[,3])
 mean(dec4_result_list[,4])
+mean(dec4_result_list[,5])
+mean(dec4_result_list[,6])
 sd(dec4_result_list[,1])/sqrt(M)
 sd(dec4_result_list[,2])/sqrt(M)
 sd(dec4_result_list[,3])/sqrt(M)
 sd(dec4_result_list[,4])/sqrt(M)
+sd(dec4_result_list[,5])/sqrt(M)
+sd(dec4_result_list[,6])/sqrt(M)
 
 dec5_result_list = matrix(nrow=M,ncol=4)
 for(i in 1:M){
-  dec5_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision_five,1000,iters)
+  dec5_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision_five,num_hand,iters)
 }
 mean(dec5_result_list[,1])
 mean(dec5_result_list[,2])
 mean(dec5_result_list[,3])
 mean(dec5_result_list[,4])
+mean(dec5_result_list[,5])
+mean(dec5_result_list[,6])
 sd(dec5_result_list[,1])/sqrt(M)
 sd(dec5_result_list[,2])/sqrt(M)
 sd(dec5_result_list[,3])/sqrt(M)
 sd(dec5_result_list[,4])/sqrt(M)
+sd(dec5_result_list[,5])/sqrt(M)
+sd(dec5_result_list[,6])/sqrt(M)
 
 dec6_result_list = matrix(nrow=M,ncol=4)
 for(i in 1:M){
-  dec6_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision_six,1000,iters)
+  dec6_result_list[i,] = avg_equity(numattable1,playerseats1,chips1,blinds1,dealer1,chipstart1,decision_six,num_hand,iters)
 }
 mean(dec6_result_list[,1])
 mean(dec6_result_list[,2])
 mean(dec6_result_list[,3])
 mean(dec6_result_list[,4])
+mean(dec6_result_list[,5])
+mean(dec6_result_list[,6])
 sd(dec6_result_list[,1])/sqrt(M)
 sd(dec6_result_list[,2])/sqrt(M)
 sd(dec6_result_list[,3])/sqrt(M)
 sd(dec6_result_list[,4])/sqrt(M)
+sd(dec6_result_list[,5])/sqrt(M)
+sd(dec6_result_list[,6])/sqrt(M)
