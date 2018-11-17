@@ -180,8 +180,9 @@ martin = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1
     }
     
     # case f6 and f7
-    if (((flush1(c(crds1[1:2,1], board1[1:3,1]), c(crds1[1:2,2], board1[1:3,2])) >0) & (straight1(c(crds1[1:2,1], board1[1:3,1])))) |
-        (full1(c(crds1[1:2,1], board1[1:3,1])))){
+    if ((strflsh1(c(crds1[1:2,1], board1[1:3,1]),c(crds1[1:2,2], board1[1:3,2])) +
+         full1(c(crds1[1:2,1], board1[1:3,1])) +
+         four1(c(crds1[1:2,1], board1[1:3,1])))>0){
       a1 <- max(a2, pot1)
     }
     
@@ -309,8 +310,9 @@ martin = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1
     }
     
     # case f6 and f7
-    if (((flush1(c(crds1[1:2,1], board1[1:4,1]),c(crds1[1:2,2], board1[1:4,2])) >0) & (straight1(c(crds1[1:2,1], board1[1:4,1])))) |
-        (full1(c(crds1[1:2,1], board1[1:4,1])))){
+    if ((strflsh1(c(crds1[1:2,1], board1[1:4,1]),c(crds1[1:2,2], board1[1:4,2])) +
+          full1(c(crds1[1:2,1], board1[1:4,1])) +
+          four1(c(crds1[1:2,1], board1[1:4,1])))>0){
       a1 <- max(a2, pot1)
     }
     
@@ -416,8 +418,9 @@ martin = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1
     
     
     # case f6 and f7
-    if (((flush1(c(crds1[1:2,1], board1[1:5,1]), c(crds1[1:2,2], board1[1:5,2])) >0) & (straight1(c(crds1[1:2,1], board1[1:5,1])))) |
-        (full1(c(crds1[1:2,1], board1[1:5,1])))){
+    if ((strflsh1(c(crds1[1:2,1], board1[1:5,1]),c(crds1[1:2,2], board1[1:5,2])) +
+         full1(c(crds1[1:2,1], board1[1:5,1])) +
+         four1(c(crds1[1:2,1], board1[1:5,1])))>0){
       a1 <- max(a2, pot1)
     }
     
@@ -647,8 +650,9 @@ marlon = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1
     }
     
     # case f6 and f7
-    if (((flush1(c(crds1[1:2,1], board1[1:3,1]),c(crds1[1:2,2], board1[1:3,2])) >0) & (straight1(c(crds1[1:2,1], board1[1:3,1])))) |
-        (full1(c(crds1[1:2,1], board1[1:3,1])))){
+    if ((strflsh1(c(crds1[1:2,1], board1[1:3,1]),c(crds1[1:2,2], board1[1:3,2])) +
+         full1(c(crds1[1:2,1], board1[1:3,1])) +
+         four1(c(crds1[1:2,1], board1[1:3,1])))>0){
       a1 <- max(a2, pot1)
     }
     
@@ -794,8 +798,9 @@ marlon = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1
     }
     
     # case f6 and f7
-    if (((flush1(c(crds1[1:2,1], board1[1:4,1]), c(crds1[1:2,2], board1[1:4,2])) >0) & (straight1(c(crds1[1:2,1], board1[1:4,1])))) |
-        (full1(c(crds1[1:2,1], board1[1:4,1])))){
+    if ((strflsh1(c(crds1[1:2,1], board1[1:4,1]),c(crds1[1:2,2], board1[1:4,2])) +
+         full1(c(crds1[1:2,1], board1[1:4,1])) +
+         four1(c(crds1[1:2,1], board1[1:4,1])))>0){
       a1 <- max(a2, pot1)
     }
     
@@ -938,8 +943,9 @@ marlon = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1
     
     
     # case f6 and f7
-    if (((flush1(c(crds1[1:2,1], board1[1:5,1]),c(crds1[1:2,2], board1[1:5,2])) >0) & (straight1(c(crds1[1:2,1], board1[1:5,1])))) |
-        (full1(c(crds1[1:2,1], board1[1:5,1])))){
+    if ((strflsh1(c(crds1[1:2,1], board1[1:5,1]),c(crds1[1:2,2], board1[1:5,2])) +
+         full1(c(crds1[1:2,1], board1[1:5,1])) +
+         four1(c(crds1[1:2,1], board1[1:5,1])))>0){
       a1 <- max(a2, pot1)
     }
     
@@ -970,10 +976,6 @@ marlon = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1
 ## bad tight player:
 marty = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1,
                   roundbets, blinds1, chips1, ind1, dealer1, tablesleft){
-  
-  
-  #call if (chance of winning * (call amount + pot)) >= (chance of losing * call amount)
-  #bet if 
   
   a1 = 0 ## how much I'm gonna end up betting. Note that the default is zero.
   a2 = min(mychips1, currentbet) ## how much it costs to call
@@ -1013,7 +1015,8 @@ marty = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1,
     # case f1
     if ((flush1(c(crds1[1:2,1], board1[1:3,1]), c(crds1[1:2,2], board1[1:3,2])) +
          straight1(c(crds1[1:2,1], board1[1:3,1])) +
-        full1(c(crds1[1:2,1], board1[1:3,1])))>0){
+        full1(c(crds1[1:2,1], board1[1:3,1])) +
+        four1(c(crds1[1:2,1], board1[1:3,1])))>0){
       a1 <- mychips1
     }
     
@@ -1035,7 +1038,8 @@ marty = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1,
     # case f1
     if ((flush1(c(crds1[1:2,1], board1[1:4,1]), c(crds1[1:2,2], board1[1:4,2])) +
          straight1(c(crds1[1:2,1], board1[1:4,1])) +
-         full1(c(crds1[1:2,1], board1[1:4,1])))>0){
+         full1(c(crds1[1:2,1], board1[1:4,1])) +
+         four1(c(crds1[1:2,1], board1[1:4,1])))>0){
       a1 <- mychips1
     }
     
@@ -1055,9 +1059,10 @@ marty = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1,
     ##  check or fold 
     
     # case f1
-    if ((flush1(c(crds1[1:2,1], board1[1:3,1]), c(crds1[1:2,2], board1[1:3,2])) +
-         straight1(c(crds1[1:2,1], board1[1:3,1])) +
-         full1(c(crds1[1:2,1], board1[1:3,1])))>0){
+    if ((flush1(c(crds1[1:2,1], board1[1:5,1]), c(crds1[1:2,2], board1[1:5,2])) +
+         straight1(c(crds1[1:2,1], board1[1:5,1])) +
+         full1(c(crds1[1:2,1], board1[1:5,1])) +
+         four1(c(crds1[1:2,1], board1[1:5,1])))>0){
       a1 <- mychips1
     }
     
