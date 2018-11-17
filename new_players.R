@@ -31,7 +31,7 @@ martin = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1
 
     #case p1:
     if((crds1[1,1] %in% c(13,14)) & (crds1[2,1] %in% c(13,14))){
-      a1 = max(a2, 4*blinds1)
+      a1 <- max(a2, 4*blinds1[2])
     }
     
     #case p2:
@@ -39,8 +39,8 @@ martin = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1
        
        ((crds1[1,1] %in% c(11,14)) & (crds1[2,1] %in% c(11,14)) & 
         (crds1[1,1] == crds1[2,2]) & (crds1[2,1] + crds1[1,1] <27))){
-      if(a2 < 4*blinds1){
-        a1 = max(a2, 3*blinds1)
+      if(a2 < 4*blinds1[2]){
+        a1 <- max(a2, 3*blinds1[2])
       } else {a1 = 0}
     }
     
@@ -50,15 +50,15 @@ martin = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1
        ((crds1[1,1] %in% c(11,14)) & (crds1[2,1] %in% c(11,14)) & 
         (crds1[1,1] != crds1[2,2]) & (crds1[1,1] != crds1[2,1]) &
         (crds1[2,1] + crds1[1,1] <27))){
-      if(a2 < 3*blinds1){
-        a1 = max(a2, 2*blinds1)
+      if(a2 < 3*blinds1[2]){
+        a1 <- max(a2, 2*blinds1[2])
       } else {a1 = 0}
     }
     
     #case p4:
     else{
-      if (a2 <= blinds1){a1 <- a2} #limp in
-      if (a2 <= 3*blinds1){
+      if (a2 <= blinds1[2]){a1 <- a2} #limp in
+      if (a2 <= 3*blinds1[2]){
         u <- runif(1,0,1)
         if (u < bluff){
           a1 = a2
@@ -466,7 +466,7 @@ marlon = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1
     
     #case p1:
     if((crds1[1,1] %in% c(13,14)) & (crds1[2,1] %in% c(13,14))){
-      a1 = max(a2, 4*blinds1)
+      a1 = max(a2, 4*blinds1[2])
     }
     
     #case p2:
@@ -474,8 +474,8 @@ marlon = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1
        
        ((crds1[1,1] %in% c(11,14)) & (crds1[2,1] %in% c(11,14)) & 
         (crds1[1,1] == crds1[2,2]) & (crds1[2,1] + crds1[1,1] <27))){
-      if(a2 < 5*blinds1){
-        a1 = max(a2, 3*blinds1)
+      if(a2 < 5*blinds1[2]){
+        a1 = max(a2, 3*blinds1[2])
       } else {
         u <- runif(1,0,1)
         if (u < bluff){
@@ -490,8 +490,8 @@ marlon = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1
        ((crds1[1,1] %in% c(11,14)) & (crds1[2,1] %in% c(11,14)) & 
         (crds1[1,1] != crds1[2,2]) & (crds1[1,1] != crds1[2,1]) &
         (crds1[2,1] + crds1[1,1] <27))){
-      if(a2 < 5*blinds1){
-        a1 = max(a2, 3*blinds1)
+      if(a2 < 5*blinds1[2]){
+        a1 = max(a2, 3*blinds1[2])
       } else {
         u <- runif(1,0,1)
         if (u < bluff){
@@ -502,8 +502,8 @@ marlon = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1
     
     #case p3:
     else{
-      if (a2 <= blinds1) {a1 <- a2} #limp in
-      if (a2 <= 3 * blinds1){
+      if (a2 <= blinds1[2]) {a1 <- a2} #limp in
+      if (a2 <= 3 * blinds1[2]){
         u <- runif(1,0,1)
         if (u < bluff){
           a1 = a2
@@ -994,7 +994,7 @@ marty = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1,
     
     #case p2:
     else{
-      if (a2 <= blinds1){
+      if (a2 <= blinds1[2]){
         a1 <- a2
       }
       else{a1 <- 0}
