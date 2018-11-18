@@ -323,6 +323,7 @@ avg_equity = function(numattable, chips, blinds, dealer, chipstart, decision, nu
   cat("final output", c(mean(p1_luck),mean(p2_luck),mean(p1_skill),mean(p2_skill),mean(p1_chip),mean(p2_chip)),"\n")
   output = c(mean(p1_luck),mean(p2_luck),mean(p1_skill),mean(p2_skill),mean(p1_chip),mean(p2_chip))
   return(output)
+  result_matrix <<- cbind(p1_luck, p2_luck, p1_skill, p2_skill, p1_chip, p2_chip)
 }
 
 # Example
@@ -343,7 +344,7 @@ decision_six = list(martin, marty)
 # decision_one = list(marly, marlon)
 
 num_hand = 1000
-iters = 10000
+iters = 3000
 M <- 1
 
 dec1_result_list = matrix(nrow=M,ncol=6)
