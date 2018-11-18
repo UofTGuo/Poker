@@ -352,7 +352,7 @@ decision_six = list(martin, marty)
 # Sanity check
 # decision_one = list(marly, marlon)
 
-num_hand = 10
+num_hand = 1000
 iters = 3000
 M = 1
 result = matrix(nrow=num_hand,ncol=6)
