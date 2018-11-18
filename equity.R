@@ -25,14 +25,14 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
   b3$brdnum1 =  board_info$num
   b3$brdsuit1 = board_info$st
   
-  # Pre-flop equity
+  ### Pre-flop equity
 
   p1_luck_equity = 0
   p2_luck_equity = 0
   p1_skill_equity = 0
   p2_skill_equity = 0
   
-  b4 = bid1(numattable1,playerseats1, chips1, blinds1, dealer1, b3,, decision1) 
+  b4 = bid1(numattable1,playerseats1, chips1, blinds1, dealer1, b3, ntables1, decision1) 
   pre_flop_win_prob = win_prob(numattable1,dealt_index,"pre_flop", iters)
   
   # case of small blind directly folding
@@ -49,11 +49,13 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
     break
 
   } else {
+
   #New Proposed or Schoenberg's Way for luck (skill changes depending on this value)
     p1_luck_equity = p1_luck_equity + (2*blinds1[2]*pre_flop_win_prob[1] - blinds1[2])
     p2_luck_equity = p2_luck_equity + max((2*blinds1[2]*pre_flop_win_prob[2]-blinds1[2]),-blinds1[1])
   #p1_luck_equity = p1_luck_equity + (2*blinds1[2]*pre_flop_win_prob[1] - blinds1[2])
   #p2_luck_equity = p2_luck_equity + max((2*blinds1[2]*pre_flop_win_prob[2]-blinds1[2]),-blinds1[1])
+
   }
 
   if(b4$all1 == 2){
@@ -79,36 +81,98 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
   p1_skill_equity = p1_skill_equity + pre_flop_win_prob[1]*(b4$p1) - b4$rb[1,1] - p1_luck_equity
   p2_skill_equity = p2_skill_equity + pre_flop_win_prob[2]*(b4$p1) - b4$rb[2,1] - p2_luck_equity
 
-  # Flop equity  
-  b5 = bid2(numattable1,playerseats1, blinds1, dealer1, b3,b4,2,, decision1) 
+  ### Flop equity  
+  b5 = bid2(numattable1,playerseats1, blinds1, dealer1, b3,b4,2, ntables1, decision1) 
   flop_win_prob = win_prob(numattable1,dealt_index,"flop", iters)
-  p1_luck_equity = p1_luck_equity + (flop_win_prob[1]-pre_flop_win_prob[1])*b4$p1
-  p2_luck_equity = p2_luck_equity + (flop_win_prob[2]-pre_flop_win_prob[2])*b4$p1
+  
+  p1_luck_equity2 = (flop_win_prob[1]-pre_flop_win_prob[1])*b4$p1
+  p2_luck_equity2 = (flop_win_prob[2]-pre_flop_win_prob[2])*b4$p1
+  p1_luck_equity <- p1_luck_equity + p1_luck_equity2
+  p2_luck_equity <- p2_luck_equity + p2_luck_equity2
+
+  if(b5$all1 == 2){
+  #player 2 folding
+    if(b5$rb[1,2] > b5$rb[2,2]){
+
+      p1_skill_equity = p1_skill_equity + (1-flop_win_prob[1])*b4$p1 + b5$rb[2,2]
+      p2_skill_equity = p2_skill_equity - (1-flop_win_prob[1])*b4$p1 - b5$rb[2,2]
+      return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
+      break
+
+    } else {
+
+   #player 1 folding
+      p1_skill_equity = p1_skill_equity - (1-flop_win_prob[2])*b4$p1 - b5$rb[1,2]
+      p2_skill_equity = p2_skill_equity + (1-flop_win_prob[2])*b4$p1 + b5$rb[1,2]
+      return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
+      break
+      }
+  }
+  
+  #no one folding
   p1_skill_equity = p1_skill_equity + (flop_win_prob[1])*(b5$p1-b4$p1) - b5$rb[1,2]
   p2_skill_equity = p2_skill_equity + (flop_win_prob[2])*(b5$p1-b4$p1) - b5$rb[2,2]
 
-  if(b5$all1 == 2){
-    return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
-    break
-  }
-  
-  # Turn equity
-  b6 = bid2(numattable1,playerseats1, blinds1, dealer1, b3, b5, 3,, decision1)
+  ### Turn equity
+  b6 = bid2(numattable1,playerseats1, blinds1, dealer1, b3, b5, 3, ntables1, decision1)
   turn_win_prob = win_prob(numattable1, dealt_index, "turn", iters)
-  p1_luck_equity = p1_luck_equity + (turn_win_prob[1]-pre_flop_win_prob[1])*b5$p1
-  p2_luck_equity = p2_luck_equity + (turn_win_prob[2]-pre_flop_win_prob[2])*b5$p1
+
+  p1_luck_equity2 = (turn_win_prob[1]-flop_win_prob[1])*b5$p1
+  p2_luck_equity2 = (turn_win_prob[2]-flop_win_prob[2])*b5$p1
+  p1_luck_equity <- p1_luck_equity + p1_luck_equity2
+  p2_luck_equity <- p2_luck_equity + p2_luck_equity2
+
+  if(b6$all1 == 2){
+  #player 2 folding
+    if(b6$rb[1,3] > b6$rb[2,3]){
+
+      p1_skill_equity = p1_skill_equity + (1-turn_win_prob[1])*b5$p1 + b6$rb[2,3]
+      p2_skill_equity = p2_skill_equity - (1-turn_win_prob[1])*b5$p1 - b6$rb[2,3]
+      return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
+      break
+
+    } else {
+
+   #player 1 folding
+      p1_skill_equity = p1_skill_equity - (1-turn_win_prob[2])*b5$p1 - b6$rb[1,3]
+      p2_skill_equity = p2_skill_equity + (1-turn_win_prob[2])*b5$p1 + b6$rb[1,3]
+      return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
+      break
+      }
+  }
+
+  #no folds
   p1_skill_equity = p1_skill_equity + (turn_win_prob[1])*(b6$p1-b5$p1) - b6$rb[1,3]
   p2_skill_equity = p2_skill_equity + (turn_win_prob[2])*(b6$p1-b5$p1) - b6$rb[2,3]
-  if(b6$all1 == 2){
-    return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
-    break
-  }
  
-  # River equity
-  b7 = bid2(numattable1, playerseats1, blinds1, dealer1, b3, b6, 4,, decision1)
+  ### River equity
+  b7 = bid2(numattable1, playerseats1, blinds1, dealer1, b3, b6, 4, ntables1, decision1)
   river_win_prob = win_prob(numattable1, dealt_index,"river", iters)
-  p1_luck_equity = p1_luck_equity + (river_win_prob[1]-pre_flop_win_prob[1])*b6$p1
-  p2_luck_equity = p2_luck_equity + (river_win_prob[2]-pre_flop_win_prob[2])*b6$p1
+
+  p1_luck_equity2 = (river_win_prob[1]-turn_win_prob[1])*b6$p1
+  p2_luck_equity2 = (river_win_prob[2]-turn_win_prob[2])*b6$p1
+  p1_luck_equity <- p1_luck_equity + p1_luck_equity2
+  p2_luck_equity <- p2_luck_equity + p2_luck_equity2
+
+  if(b7$all1 == 2){
+  #player 2 folding
+    if(b7$rb[1,4] > b7$rb[2,4]){
+
+      p1_skill_equity = p1_skill_equity + (1-river_win_prob[1])*b6$p1 + b7$rb[2,4]
+      p2_skill_equity = p2_skill_equity - (1-river_win_prob[1])*b6$p1 - b7$rb[2,4]
+      return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
+      break
+
+    } else {
+
+   #player 1 folding
+      p1_skill_equity = p1_skill_equity - (1-river_win_prob[2])*b6$p1 - b7$rb[1,4]
+      p2_skill_equity = p2_skill_equity + (1-river_win_prob[2])*b6$p1 + b7$rb[1,4]
+      return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
+      break
+      }
+  }
+
   p1_skill_equity = p1_skill_equity + (river_win_prob[1])*(b7$p1-b6$p1) - b7$rb[1,4]
   p2_skill_equity = p2_skill_equity + (river_win_prob[2])*(b7$p1-b6$p1) - b7$rb[2,4]
   
@@ -205,9 +269,9 @@ win_prob = function(numattable1,dealt_index, round, iters){
       p1_value = handeval(c(boardcards,player1cards),c(boardsuits,player1suits))
       p2_value = handeval(c(boardcards,player2cards),c(boardsuits,player2suits))
       if(p1_value > p2_value){
-        temp <<- temp + 1
+        temp <- temp + 1
       } else if(p1_value == p2_value){
-	  tie <<- tie + 1
+	  tie <- tie + 1
 	}
     }
     winprob[3] <- tie/turn_comb
@@ -279,8 +343,8 @@ decision_six = list(martin, marty)
 # decision_one = list(marly, marlon)
 
 num_hand = 1000
-iters = 1000
-M=10
+iters = 10000
+M <- 1
 
 dec1_result_list = matrix(nrow=M,ncol=6)
 for(i in 1:M){
