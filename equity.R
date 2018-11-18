@@ -302,6 +302,7 @@ win_prob = function(numattable1,dealt_index, round, iters){
   }
 }
 
+
 # Calculating average equity
 avg_equity = function(numattable, chips, blinds, dealer, chipstart, decision, num_hand, iters){
   p1_luck = p2_luck = p1_skill = p2_skill = p1_chip = p2_chip = numeric(num_hand)
@@ -326,11 +327,12 @@ avg_equity = function(numattable, chips, blinds, dealer, chipstart, decision, nu
       p2_chip[i] = chips[1]+temp[1]+temp[3]
       cat(c(p1_luck[i],p2_luck[i],p1_skill[i],p2_skill[i],(chips[2]+temp[2]+temp[4]),(chips[1]+temp[1]+temp[3])),"\n") 
     }
+
   }
+  result <<- cbind(p1_luck, p2_luck, p1_skill, p2_skill, p1_chip, p2_chip)
   cat("final output", c(mean(p1_luck),mean(p2_luck),mean(p1_skill),mean(p2_skill),mean(p1_chip),mean(p2_chip)),"\n")
   output = c(mean(p1_luck),mean(p2_luck),mean(p1_skill),mean(p2_skill),mean(p1_chip),mean(p2_chip))
   return(output)
-  result_matrix <<- cbind(p1_luck, p2_luck, p1_skill, p2_skill, p1_chip, p2_chip)
 }
 
 # Example
@@ -350,9 +352,10 @@ decision_six = list(martin, marty)
 # Sanity check
 # decision_one = list(marly, marlon)
 
-num_hand = 1000
+num_hand = 10
 iters = 3000
-M <- 1
+M = 1
+result = matrix(nrow=num_hand,ncol=6)
 
 dec1_result_list = matrix(nrow=M,ncol=6)
 for(i in 1:M){
