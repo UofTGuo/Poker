@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #new players
 
 ## tight player:
@@ -1087,7 +1086,6 @@ marly = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1,
 } ## end of marly
 
 
-=======
 #new players
 
 ## tight player:
@@ -2179,6 +2177,3 @@ marly = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1,
 
   min(a2, mychips1)
 } ## end of marly
-
-
->>>>>>> 9799b46b9ba4535cd8657d7814a10657478e5651
