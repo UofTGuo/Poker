@@ -315,16 +315,17 @@ avg_equity = function(numattable, chips, blinds, dealer, chipstart, decision, nu
       p2_skill[i] = temp[4]
       p1_chip[i] = chips[1]+temp[1]+temp[3]
       p2_chip[i] = chips[2]+temp[2]+temp[4]
+      cat(c(temp,(chips[1]+temp[1]+temp[3]),(chips[2]+temp[2]+temp[4])),"\n")
     } else {
       temp = equity(numattable, c(2,1), chips, blinds, dealer, chipstart, decision,iters)
       p1_luck[i] = temp[2]
       p2_luck[i] = temp[1]
       p1_skill[i] = temp[4]
-      p2_skill[i] = temp[2]
+      p2_skill[i] = temp[3]
       p1_chip[i] = chips[2]+temp[2]+temp[4]
       p2_chip[i] = chips[1]+temp[1]+temp[3]
+      cat(c(p1_luck[i],p2_luck[i],p1_skill[i],p2_skill[i],(chips[2]+temp[2]+temp[4]),(chips[1]+temp[1]+temp[3])),"\n") 
     }
-    cat(c(temp,(chips[1]+temp[1]+temp[3]),(chips[2]+temp[2]+temp[4])),"\n")
   }
   cat("final output", c(mean(p1_luck),mean(p2_luck),mean(p1_skill),mean(p2_skill),mean(p1_chip),mean(p2_chip)),"\n")
   output = c(mean(p1_luck),mean(p2_luck),mean(p1_skill),mean(p2_skill),mean(p1_chip),mean(p2_chip))
