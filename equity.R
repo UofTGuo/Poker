@@ -303,7 +303,7 @@ win_prob = function(numattable1,dealt_index, round, iters){
 }
 
 
-# Calculating average equity
+# Calculate average equity
 avg_equity = function(numattable, chips, blinds, dealer, chipstart, decision, num_hand, iters){
   p1_luck = p2_luck = p1_skill = p2_skill = p1_chip = p2_chip = numeric(num_hand)
   cond <- ((1:num_hand)%%2) == 0
@@ -335,6 +335,30 @@ avg_equity = function(numattable, chips, blinds, dealer, chipstart, decision, nu
   return(output)
 }
 
+# Calculate incremental average
+incremental_avg = function(data){
+  n = length(data)
+  result = NULL
+  m = 0
+  for(i in 1:n){
+    result[i] = ((i-1)*m +data[i])/(i)
+    m = result[i]
+  }
+  return(result)
+}
+
+# Calculate total profit
+total_profit = function(data){
+  n = length(data)
+  result = NULL
+  acc = 0
+  for(i in 1:n){
+    result[i] = acc + data[i]
+    acc = result[i]
+  }
+  return(result)
+}
+
 # Example
 numattable1 = 2
 chips1 = c(20000,20000)
@@ -352,7 +376,8 @@ decision_six = list(martin, marty)
 # Sanity check
 # decision_one = list(marly, marlon)
 
-num_hand = 1000
+
+num_hand = 2000
 iters = 3000
 M = 1
 result = matrix(nrow=num_hand,ncol=6)
