@@ -38,23 +38,22 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
   # case of small blind directly folding
   if(b4$rb[1,1] == blinds1[2] && b4$rb[2,1] == blinds1[1]){
 
-  #New Proposed or Schoenberg's Way for luck (skill changes depending on this value)
-    p1_luck_equity = p1_luck_equity + min((2*blinds1[2]*pre_flop_win_prob[1]-blinds1[2]),blinds1[1])
-    p2_luck_equity = p2_luck_equity + (2*blinds1[2]*pre_flop_win_prob[2] - blinds1[2])
-  #p1_luck_equity = p1_luck_equity + (2*blinds1[2]*pre_flop_win_prob[1] - blinds1[2])
-  #p2_luck_equity = p2_luck_equity + max((2*blinds1[2]*pre_flop_win_prob[2]-blinds1[2]),-blinds1[1])
+  #New Proposed pre-flop luck (skill changes depending on this value)
+	#p1_luck_equity = p1_luck_equity + min((2*blinds1[2]*pre_flop_win_prob[1]-blinds1[2]),blinds1[1])
+	#p2_luck_equity = p2_luck_equity + (2*blinds1[2]*pre_flop_win_prob[2] - blinds1[2])
+  #Schoenberg's Way
+	p1_luck_equity = p1_luck_equity + (2*blinds1[2]*pre_flop_win_prob[1] - blinds1[2])
+ 	p2_luck_equity = p2_luck_equity + max((2*blinds1[2]*pre_flop_win_prob[2]-blinds1[2]),-blinds1[1])
     p1_skill_equity = p1_skill_equity + blinds1[1] - p1_luck_equity
     p2_skill_equity = p2_skill_equity - blinds1[1] - p2_luck_equity
     return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
     break
 
+  #Only needed for new proposed way
   } else {
 
-  #New Proposed or Schoenberg's Way for luck (skill changes depending on this value)
     p1_luck_equity = p1_luck_equity + (2*blinds1[2]*pre_flop_win_prob[1] - blinds1[2])
     p2_luck_equity = p2_luck_equity + max((2*blinds1[2]*pre_flop_win_prob[2]-blinds1[2]),-blinds1[1])
-  #p1_luck_equity = p1_luck_equity + (2*blinds1[2]*pre_flop_win_prob[1] - blinds1[2])
-  #p2_luck_equity = p2_luck_equity + max((2*blinds1[2]*pre_flop_win_prob[2]-blinds1[2]),-blinds1[1])
 
   }
 
@@ -94,16 +93,16 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
   #player 2 folding
     if(b5$rb[1,2] > b5$rb[2,2]){
 
-      p1_skill_equity = p1_skill_equity + (1-flop_win_prob[1])*b4$p1 + b5$rb[2,2]
-      p2_skill_equity = p2_skill_equity - (1-flop_win_prob[1])*b4$p1 - b5$rb[2,2]
+      p1_skill_equity = p1_skill_equity + (1-flop_win_prob[1])*b4$p1
+      p2_skill_equity = p2_skill_equity - (1-flop_win_prob[1])*b4$p1
       return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
       break
 
     } else {
 
    #player 1 folding
-      p1_skill_equity = p1_skill_equity - (1-flop_win_prob[2])*b4$p1 - b5$rb[1,2]
-      p2_skill_equity = p2_skill_equity + (1-flop_win_prob[2])*b4$p1 + b5$rb[1,2]
+      p1_skill_equity = p1_skill_equity - (1-flop_win_prob[2])*b4$p1
+      p2_skill_equity = p2_skill_equity + (1-flop_win_prob[2])*b4$p1
       return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
       break
       }
@@ -126,16 +125,16 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
   #player 2 folding
     if(b6$rb[1,3] > b6$rb[2,3]){
 
-      p1_skill_equity = p1_skill_equity + (1-turn_win_prob[1])*b5$p1 + b6$rb[2,3]
-      p2_skill_equity = p2_skill_equity - (1-turn_win_prob[1])*b5$p1 - b6$rb[2,3]
+      p1_skill_equity = p1_skill_equity + (1-turn_win_prob[1])*b5$p1
+      p2_skill_equity = p2_skill_equity - (1-turn_win_prob[1])*b5$p1
       return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
       break
 
     } else {
 
    #player 1 folding
-      p1_skill_equity = p1_skill_equity - (1-turn_win_prob[2])*b5$p1 - b6$rb[1,3]
-      p2_skill_equity = p2_skill_equity + (1-turn_win_prob[2])*b5$p1 + b6$rb[1,3]
+      p1_skill_equity = p1_skill_equity - (1-turn_win_prob[2])*b5$p1
+      p2_skill_equity = p2_skill_equity + (1-turn_win_prob[2])*b5$p1
       return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
       break
       }
@@ -158,16 +157,16 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
   #player 2 folding
     if(b7$rb[1,4] > b7$rb[2,4]){
 
-      p1_skill_equity = p1_skill_equity + (1-river_win_prob[1])*b6$p1 + b7$rb[2,4]
-      p2_skill_equity = p2_skill_equity - (1-river_win_prob[1])*b6$p1 - b7$rb[2,4]
+      p1_skill_equity = p1_skill_equity + (1-river_win_prob[1])*b6$p1
+      p2_skill_equity = p2_skill_equity - (1-river_win_prob[1])*b6$p1
       return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
       break
 
     } else {
 
    #player 1 folding
-      p1_skill_equity = p1_skill_equity - (1-river_win_prob[2])*b6$p1 - b7$rb[1,4]
-      p2_skill_equity = p2_skill_equity + (1-river_win_prob[2])*b6$p1 + b7$rb[1,4]
+      p1_skill_equity = p1_skill_equity - (1-river_win_prob[2])*b6$p1
+      p2_skill_equity = p2_skill_equity + (1-river_win_prob[2])*b6$p1
       return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
       break
       }
@@ -302,8 +301,7 @@ win_prob = function(numattable1,dealt_index, round, iters){
   }
 }
 
-
-# Calculate average equity
+# Calculating average equity
 avg_equity = function(numattable, chips, blinds, dealer, chipstart, decision, num_hand, iters){
   p1_luck = p2_luck = p1_skill = p2_skill = p1_chip = p2_chip = numeric(num_hand)
   cond <- ((1:num_hand)%%2) == 0
@@ -327,36 +325,10 @@ avg_equity = function(numattable, chips, blinds, dealer, chipstart, decision, nu
       p2_chip[i] = chips[1]+temp[1]+temp[3]
       cat(c(p1_luck[i],p2_luck[i],p1_skill[i],p2_skill[i],(chips[2]+temp[2]+temp[4]),(chips[1]+temp[1]+temp[3])),"\n") 
     }
-
   }
-  result <<- cbind(p1_luck, p2_luck, p1_skill, p2_skill, p1_chip, p2_chip)
   cat("final output", c(mean(p1_luck),mean(p2_luck),mean(p1_skill),mean(p2_skill),mean(p1_chip),mean(p2_chip)),"\n")
   output = c(mean(p1_luck),mean(p2_luck),mean(p1_skill),mean(p2_skill),mean(p1_chip),mean(p2_chip))
   return(output)
-}
-
-# Calculate incremental average
-incremental_avg = function(data){
-  n = length(data)
-  result = NULL
-  m = 0
-  for(i in 1:n){
-    result[i] = ((i-1)*m +data[i])/(i)
-    m = result[i]
-  }
-  return(result)
-}
-
-# Calculate total profit
-total_profit = function(data){
-  n = length(data)
-  result = NULL
-  acc = 0
-  for(i in 1:n){
-    result[i] = acc + data[i]
-    acc = result[i]
-  }
-  return(result)
 }
 
 # Example
@@ -366,21 +338,16 @@ blinds1 = c(50,100)
 dealer1 = 1
 chipstart1 = 20000
 
-decision_one = list(marlon, marly) 
-decision_two = list(marlon, martin)
-decision_three = list(marlon, marty)
-decision_four = list(marly, martin)
-decision_five = list(marly, marty)
-decision_six = list(martin, marty)
+decision_one = list(loose_player, bad_loose_player) 
+decision_two = list(loose_player, tight_player)
+decision_three = list(loose_player, bad_tight_player)
+decision_four = list(bad_loose_player, tight_player)
+decision_five = list(bad_loose_player, bad_tight_player)
+decision_six = list(tight_player, bad_tight_player)
 
-# Sanity check
-# decision_one = list(marly, marlon)
-
-
-num_hand = 2000
+num_hand = 1000
 iters = 3000
 M = 1
-result = matrix(nrow=num_hand,ncol=6)
 
 dec1_result_list = matrix(nrow=M,ncol=6)
 for(i in 1:M){
