@@ -41,7 +41,6 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
   #New Proposed pre-flop luck (skill changes depending on this value)
 	#p1_luck_equity = p1_luck_equity + min((2*blinds1[2]*pre_flop_win_prob[1]-blinds1[2]),blinds1[1])
 	#p2_luck_equity = p2_luck_equity + (2*blinds1[2]*pre_flop_win_prob[2] - blinds1[2])
-  
   #Schoenberg's Way
 	p1_luck_equity = p1_luck_equity + (2*blinds1[2]*pre_flop_win_prob[1] - blinds1[2])
  	p2_luck_equity = p2_luck_equity + max((2*blinds1[2]*pre_flop_win_prob[2]-blinds1[2]),-blinds1[1])
@@ -94,16 +93,16 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
   #player 2 folding
     if(b5$rb[1,2] > b5$rb[2,2]){
 
-      p1_skill_equity = p1_skill_equity + (1-flop_win_prob[1])*b4$p1 + b5$rb[2,2]
-      p2_skill_equity = p2_skill_equity - (1-flop_win_prob[1])*b4$p1 - b5$rb[2,2]
+      p1_skill_equity = p1_skill_equity + (1-flop_win_prob[1])*b4$p1
+      p2_skill_equity = p2_skill_equity - (1-flop_win_prob[1])*b4$p1
       return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
       break
 
     } else {
 
    #player 1 folding
-      p1_skill_equity = p1_skill_equity - (1-flop_win_prob[2])*b4$p1 - b5$rb[1,2]
-      p2_skill_equity = p2_skill_equity + (1-flop_win_prob[2])*b4$p1 + b5$rb[1,2]
+      p1_skill_equity = p1_skill_equity - (1-flop_win_prob[2])*b4$p1
+      p2_skill_equity = p2_skill_equity + (1-flop_win_prob[2])*b4$p1
       return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
       break
       }
@@ -126,16 +125,16 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
   #player 2 folding
     if(b6$rb[1,3] > b6$rb[2,3]){
 
-      p1_skill_equity = p1_skill_equity + (1-turn_win_prob[1])*b5$p1 + b6$rb[2,3]
-      p2_skill_equity = p2_skill_equity - (1-turn_win_prob[1])*b5$p1 - b6$rb[2,3]
+      p1_skill_equity = p1_skill_equity + (1-turn_win_prob[1])*b5$p1
+      p2_skill_equity = p2_skill_equity - (1-turn_win_prob[1])*b5$p1
       return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
       break
 
     } else {
 
    #player 1 folding
-      p1_skill_equity = p1_skill_equity - (1-turn_win_prob[2])*b5$p1 - b6$rb[1,3]
-      p2_skill_equity = p2_skill_equity + (1-turn_win_prob[2])*b5$p1 + b6$rb[1,3]
+      p1_skill_equity = p1_skill_equity - (1-turn_win_prob[2])*b5$p1
+      p2_skill_equity = p2_skill_equity + (1-turn_win_prob[2])*b5$p1
       return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
       break
       }
@@ -158,16 +157,16 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
   #player 2 folding
     if(b7$rb[1,4] > b7$rb[2,4]){
 
-      p1_skill_equity = p1_skill_equity + (1-river_win_prob[1])*b6$p1 + b7$rb[2,4]
-      p2_skill_equity = p2_skill_equity - (1-river_win_prob[1])*b6$p1 - b7$rb[2,4]
+      p1_skill_equity = p1_skill_equity + (1-river_win_prob[1])*b6$p1
+      p2_skill_equity = p2_skill_equity - (1-river_win_prob[1])*b6$p1
       return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
       break
 
     } else {
 
    #player 1 folding
-      p1_skill_equity = p1_skill_equity - (1-river_win_prob[2])*b6$p1 - b7$rb[1,4]
-      p2_skill_equity = p2_skill_equity + (1-river_win_prob[2])*b6$p1 + b7$rb[1,4]
+      p1_skill_equity = p1_skill_equity - (1-river_win_prob[2])*b6$p1
+      p2_skill_equity = p2_skill_equity + (1-river_win_prob[2])*b6$p1
       return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity))
       break
       }
@@ -339,12 +338,12 @@ blinds1 = c(50,100)
 dealer1 = 1
 chipstart1 = 20000
 
-decision_one = list(loose_player, bad_loose_player) 
-decision_two = list(loose_player, tight_player)
-decision_three = list(loose_player, bad_tight_player)
-decision_four = list(bad_loose_player, tight_player)
-decision_five = list(bad_loose_player, bad_tight_player)
-decision_six = list(tight_player, bad_tight_player)
+decision_one = list(marlon, marly) 
+decision_two = list(marlon, martin)
+decision_three = list(marlon, marty)
+decision_four = list(marly, martin)
+decision_five = list(marly, marty)
+decision_six = list(martin, marty)
 
 num_hand = 1000
 iters = 3000
