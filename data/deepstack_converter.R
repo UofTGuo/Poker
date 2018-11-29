@@ -1,30 +1,43 @@
 ##### Current Issues #####
-# No setting to ensure DeepStack is the focused player
 # if(is.null(b5)) could be switched to if(b5$all1 == 2) ?
 #
 # Unknown unknowns
-# Current Run Time: ~1 second
+# Current Run Time: up to 7 seconds
 
 
 
 
 #####=====SETUP=====
 ##
-#==Load Packages==
-#library(holdem)
+#==Load/Install Packages==
+#install.packages("holdem")
+#install.packages("microbenchmark")
+library(holdem)
+#library(microbenchmark)
 ##
 
 ##
 #==Load and Correct Data==
 allhands <- read.csv("all_hands3.csv",stringsAsFactors=F)
+martin.s <- read.csv("ds_martin_s.csv",stringsAsFactors=F)
+kaishi.s <- read.csv("ds_kaishi_s.csv",stringsAsFactors=F)
+muskan.s <- read.csv("ds_muskan_s.csv",stringsAsFactors=F)
+##
+
 #==optional==
 #attach(allhands)
 ##
 
 ##
-#==SUBSET FOR TESTING==
-test <- allhands[1:60,]
+#==SUBSETING==
+#test <- allhands[1:60,]
+#test <- martin.s
+#test <- kaishi.s
+#test <- muskan.s
 ##
+
+##==Set scipen==
+options(digits=6)
 #####
 
 #####=====FUNCTIONS======
@@ -568,37 +581,40 @@ if(doTest[1]){
 		print(b6)
 		print(b7)
 		}
-	cat( equity(pf.logt,f.logt,t.logt,r.logt,dealt_indext,DSbb),"\n" )
+	cat( equity(pf.logt,f.logt,t.logt,r.logt,dealt_indext,DSbbt),"\n" )
 }
 ##
 #####
 
 #####=====All In One Function Runner=====
 ##
+time1 <- Sys.time()
 for(i in 1:nrow(test)){
 	cat( equity(pf.log[[i]],f.log[[i]],t.log[[i]],r.log[[i]],cards[[i]],DSbb[i]),"\n" )
 }
+time2 <- Sys.time()
+time2-time1
 ##
 #####
 
 #####=====Analyse Data from .txt=====
 ##
 dat <- read.table("deepstack_data.txt")
-colMeans(dat)
-sqrt(diag(var(dat)))/sqrt(nrow(dat))
+colMeans(dat) 	
+sqrt(diag(var(dat[,1:6)))/sqrt(nrow(dat))
 
 DSbb.dat <- dat[dat$V7==1,]
-colMeans(DSbb.dat)
-sqrt(diag(var(DSbb.dat)))/sqrt(nrow(DSbb.dat))
+colMeans(DSbb.dat[,1:6])
+sqrt(diag(var(DSbb.dat[,1:6])))/sqrt(nrow(DSbb.dat))
 
 DSsb.dat <- dat[dat$V7==0,c(2,1,4,3,6,5,7)]
 names(DSsb.dat) <- c("V1","V2","V3","V4","V5","V6","V7")
-colMeans(DSsb.dat)
-sqrt(diag(var(DSsb.dat)))/sqrt(nrow(DSsb.dat))
+colMeans(DSsb.dat[,1:6])
+sqrt(diag(var(DSsb.dat[,1:6])))/sqrt(nrow(DSsb.dat))
 
 DS.dat <- rbind(DSbb.dat,DSsb.dat)
-colMeans(DS.dat)
-sqrt(diag(var(DS.dat)))/sqrt(nrow(DS.dat))
+colMeans(DS.dat[,1:6])
+sqrt(diag(var(DS.dat[,1:6])))/sqrt(nrow(DS.dat))
 ##
 #####
 
