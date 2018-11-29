@@ -1,4 +1,6 @@
-## tight player:
+#new players
+
+# tight player (martin)
 tight_player = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1,
          roundbets, blinds1, chips1, ind1, dealer1, tablesleft, bluff = 0.1){
 
@@ -29,7 +31,7 @@ tight_player = function(numattable1, crds1, board1, round1, currentbet, mychips1
 
     #case p1:
     if((crds1[1,1] %in% c(13,14)) & (crds1[2,1] %in% c(13,14))){
-      a1 <- max(a2, 4*blinds1[2])
+      a1 <- max(a2, 4*blinds1)
     }
     
     #case p2:
@@ -37,8 +39,8 @@ tight_player = function(numattable1, crds1, board1, round1, currentbet, mychips1
        
        ((crds1[1,1] %in% c(11,14)) & (crds1[2,1] %in% c(11,14)) & 
         (crds1[1,1] == crds1[2,2]) & (crds1[2,1] + crds1[1,1] <27))){
-      if(a2 < 4*blinds1[2]){
-        a1 <- max(a2, 3*blinds1[2])
+      if(a2 < 4*blinds1){
+        a1 <- max(a2, 3*blinds1)
       } else {a1 = 0}
     }
     
@@ -48,15 +50,15 @@ tight_player = function(numattable1, crds1, board1, round1, currentbet, mychips1
        ((crds1[1,1] %in% c(11,14)) & (crds1[2,1] %in% c(11,14)) & 
         (crds1[1,1] != crds1[2,2]) & (crds1[1,1] != crds1[2,1]) &
         (crds1[2,1] + crds1[1,1] <27))){
-      if(a2 < 3*blinds1[2]){
-        a1 <- max(a2, 2*blinds1[2])
+      if(a2 < 3*blinds1){
+        a1 <- max(a2, 2*blinds1)
       } else {a1 = 0}
     }
     
     #case p4:
     else{
-      if (a2 <= blinds1[2]){a1 <- a2} #limp in
-      if (a2 <= 3*blinds1[2]){
+      if (a2 <= blinds1){a1 <- a2} #limp in
+      if (a2 <= 3*blinds1){
         u <- runif(1,0,1)
         if (u < bluff){
           a1 = a2
@@ -178,8 +180,9 @@ tight_player = function(numattable1, crds1, board1, round1, currentbet, mychips1
     }
     
     # case f6 and f7
-    if (((flush1(c(crds1[1:2,1], board1[1:3,1]), c(crds1[1:2,2], board1[1:3,2])) >0) & (straight1(c(crds1[1:2,1], board1[1:3,1])))) |
-        (full1(c(crds1[1:2,1], board1[1:3,1])))){
+    if ((strflsh1(c(crds1[1:2,1], board1[1:3,1]),c(crds1[1:2,2], board1[1:3,2])) +
+         full1(c(crds1[1:2,1], board1[1:3,1])) +
+         four1(c(crds1[1:2,1], board1[1:3,1])))>0){
       a1 <- max(a2, pot1)
     }
     
@@ -307,8 +310,9 @@ tight_player = function(numattable1, crds1, board1, round1, currentbet, mychips1
     }
     
     # case f6 and f7
-    if (((flush1(c(crds1[1:2,1], board1[1:4,1]),c(crds1[1:2,2], board1[1:4,2])) >0) & (straight1(c(crds1[1:2,1], board1[1:4,1])))) |
-        (full1(c(crds1[1:2,1], board1[1:4,1])))){
+    if ((strflsh1(c(crds1[1:2,1], board1[1:4,1]),c(crds1[1:2,2], board1[1:4,2])) +
+          full1(c(crds1[1:2,1], board1[1:4,1])) +
+          four1(c(crds1[1:2,1], board1[1:4,1])))>0){
       a1 <- max(a2, pot1)
     }
     
@@ -414,8 +418,9 @@ tight_player = function(numattable1, crds1, board1, round1, currentbet, mychips1
     
     
     # case f6 and f7
-    if (((flush1(c(crds1[1:2,1], board1[1:5,1]), c(crds1[1:2,2], board1[1:5,2])) >0) & (straight1(c(crds1[1:2,1], board1[1:5,1])))) |
-        (full1(c(crds1[1:2,1], board1[1:5,1])))){
+    if ((strflsh1(c(crds1[1:2,1], board1[1:5,1]),c(crds1[1:2,2], board1[1:5,2])) +
+         full1(c(crds1[1:2,1], board1[1:5,1])) +
+         four1(c(crds1[1:2,1], board1[1:5,1])))>0){
       a1 <- max(a2, pot1)
     }
     
@@ -432,9 +437,9 @@ tight_player = function(numattable1, crds1, board1, round1, currentbet, mychips1
   }
   #end of river
   min(a1, mychips1)
-} 
+} ## end of martin
 
-# loose player
+# loose player (marlon)
 loose_player = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1,
                   roundbets, blinds1, chips1, ind1, dealer1, tablesleft, bluff = 0.3){
   
@@ -464,7 +469,7 @@ loose_player = function(numattable1, crds1, board1, round1, currentbet, mychips1
     
     #case p1:
     if((crds1[1,1] %in% c(13,14)) & (crds1[2,1] %in% c(13,14))){
-      a1 = max(a2, 4*blinds1[2])
+      a1 = max(a2, 4*blinds1)
     }
     
     #case p2:
@@ -472,8 +477,8 @@ loose_player = function(numattable1, crds1, board1, round1, currentbet, mychips1
        
        ((crds1[1,1] %in% c(11,14)) & (crds1[2,1] %in% c(11,14)) & 
         (crds1[1,1] == crds1[2,2]) & (crds1[2,1] + crds1[1,1] <27))){
-      if(a2 < 5*blinds1[2]){
-        a1 = max(a2, 3*blinds1[2])
+      if(a2 < 5*blinds1){
+        a1 = max(a2, 3*blinds1)
       } else {
         u <- runif(1,0,1)
         if (u < bluff){
@@ -488,8 +493,8 @@ loose_player = function(numattable1, crds1, board1, round1, currentbet, mychips1
        ((crds1[1,1] %in% c(11,14)) & (crds1[2,1] %in% c(11,14)) & 
         (crds1[1,1] != crds1[2,2]) & (crds1[1,1] != crds1[2,1]) &
         (crds1[2,1] + crds1[1,1] <27))){
-      if(a2 < 5*blinds1[2]){
-        a1 = max(a2, 3*blinds1[2])
+      if(a2 < 5*blinds1){
+        a1 = max(a2, 3*blinds1)
       } else {
         u <- runif(1,0,1)
         if (u < bluff){
@@ -500,8 +505,8 @@ loose_player = function(numattable1, crds1, board1, round1, currentbet, mychips1
     
     #case p3:
     else{
-      if (a2 <= blinds1[2]) {a1 <- a2} #limp in
-      if (a2 <= 3 * blinds1[2]){
+      if (a2 <= blinds1) {a1 <- a2} #limp in
+      if (a2 <= 3 * blinds1){
         u <- runif(1,0,1)
         if (u < bluff){
           a1 = a2
@@ -645,8 +650,9 @@ loose_player = function(numattable1, crds1, board1, round1, currentbet, mychips1
     }
     
     # case f6 and f7
-    if (((flush1(c(crds1[1:2,1], board1[1:3,1]),c(crds1[1:2,2], board1[1:3,2])) >0) & (straight1(c(crds1[1:2,1], board1[1:3,1])))) |
-        (full1(c(crds1[1:2,1], board1[1:3,1])))){
+    if ((strflsh1(c(crds1[1:2,1], board1[1:3,1]),c(crds1[1:2,2], board1[1:3,2])) +
+         full1(c(crds1[1:2,1], board1[1:3,1])) +
+         four1(c(crds1[1:2,1], board1[1:3,1])))>0){
       a1 <- max(a2, pot1)
     }
     
@@ -792,8 +798,9 @@ loose_player = function(numattable1, crds1, board1, round1, currentbet, mychips1
     }
     
     # case f6 and f7
-    if (((flush1(c(crds1[1:2,1], board1[1:4,1]), c(crds1[1:2,2], board1[1:4,2])) >0) & (straight1(c(crds1[1:2,1], board1[1:4,1])))) |
-        (full1(c(crds1[1:2,1], board1[1:4,1])))){
+    if ((strflsh1(c(crds1[1:2,1], board1[1:4,1]),c(crds1[1:2,2], board1[1:4,2])) +
+         full1(c(crds1[1:2,1], board1[1:4,1])) +
+         four1(c(crds1[1:2,1], board1[1:4,1])))>0){
       a1 <- max(a2, pot1)
     }
     
@@ -918,6 +925,7 @@ loose_player = function(numattable1, crds1, board1, round1, currentbet, mychips1
       }
     }
     
+    
     # case f5:
     if (flush1(c(crds1[1:2,1], board1[1:5,1]),c(crds1[1:2,2], board1[1:5,2])) > 0){
       if (a2 <= 5*pot1){
@@ -935,8 +943,9 @@ loose_player = function(numattable1, crds1, board1, round1, currentbet, mychips1
     
     
     # case f6 and f7
-    if (((flush1(c(crds1[1:2,1], board1[1:5,1]),c(crds1[1:2,2], board1[1:5,2])) >0) & (straight1(c(crds1[1:2,1], board1[1:5,1])))) |
-        (full1(c(crds1[1:2,1], board1[1:5,1])))){
+    if ((strflsh1(c(crds1[1:2,1], board1[1:5,1]),c(crds1[1:2,2], board1[1:5,2])) +
+         full1(c(crds1[1:2,1], board1[1:5,1])) +
+         four1(c(crds1[1:2,1], board1[1:5,1])))>0){
       a1 <- max(a2, pot1)
     }
     
@@ -955,20 +964,15 @@ loose_player = function(numattable1, crds1, board1, round1, currentbet, mychips1
       }
       else {a1 = 0}
     }
+    
   }
   #end of river
   min(a1, mychips1)
-}
+} ## end of marlin
 
-### bad players ###
-
-## bad tight player:
+# bad tight player (marty)
 bad_tight_player = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1,
                   roundbets, blinds1, chips1, ind1, dealer1, tablesleft){
-  
-  
-  #call if (chance of winning * (call amount + pot)) >= (chance of losing * call amount)
-  #bet if 
   
   a1 = 0 ## how much I'm gonna end up betting. Note that the default is zero.
   a2 = min(mychips1, currentbet) ## how much it costs to call
@@ -989,7 +993,7 @@ bad_tight_player = function(numattable1, crds1, board1, round1, currentbet, mych
     
     #case p2:
     else{
-      if (a2 <= blinds1[2]){
+      if (a2 <= blinds1){
         a1 <- a2
       }
       else{a1 <- 0}
@@ -1008,7 +1012,8 @@ bad_tight_player = function(numattable1, crds1, board1, round1, currentbet, mych
     # case f1
     if ((flush1(c(crds1[1:2,1], board1[1:3,1]), c(crds1[1:2,2], board1[1:3,2])) +
          straight1(c(crds1[1:2,1], board1[1:3,1])) +
-        full1(c(crds1[1:2,1], board1[1:3,1])))>0){
+        full1(c(crds1[1:2,1], board1[1:3,1])) +
+        four1(c(crds1[1:2,1], board1[1:3,1])))>0){
       a1 <- mychips1
     }
     
@@ -1030,7 +1035,8 @@ bad_tight_player = function(numattable1, crds1, board1, round1, currentbet, mych
     # case f1
     if ((flush1(c(crds1[1:2,1], board1[1:4,1]), c(crds1[1:2,2], board1[1:4,2])) +
          straight1(c(crds1[1:2,1], board1[1:4,1])) +
-         full1(c(crds1[1:2,1], board1[1:4,1])))>0){
+         full1(c(crds1[1:2,1], board1[1:4,1])) +
+         four1(c(crds1[1:2,1], board1[1:4,1])))>0){
       a1 <- mychips1
     }
     
@@ -1050,9 +1056,10 @@ bad_tight_player = function(numattable1, crds1, board1, round1, currentbet, mych
     ##  check or fold 
     
     # case f1
-    if ((flush1(c(crds1[1:2,1], board1[1:3,1]), c(crds1[1:2,2], board1[1:3,2])) +
-         straight1(c(crds1[1:2,1], board1[1:3,1])) +
-         full1(c(crds1[1:2,1], board1[1:3,1])))>0){
+    if ((flush1(c(crds1[1:2,1], board1[1:5,1]), c(crds1[1:2,2], board1[1:5,2])) +
+         straight1(c(crds1[1:2,1], board1[1:5,1])) +
+         full1(c(crds1[1:2,1], board1[1:5,1])) +
+         four1(c(crds1[1:2,1], board1[1:5,1])))>0){
       a1 <- mychips1
     }
     
@@ -1063,13 +1070,16 @@ bad_tight_player = function(numattable1, crds1, board1, round1, currentbet, mych
   }
   #end of river
   min(a1, mychips1)
-} 
+} ## end of marty
 
-## bad loose player:
+# bad loose player (marly)
 bad_loose_player = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1,
                   roundbets, blinds1, chips1, ind1, dealer1, tablesleft){
+  
   ## always call
+  
   a1 = 0 ## how much I'm gonna end up betting. Note that the default is zero.
   a2 = min(mychips1, currentbet) ## how much it costs to call
+
   min(a2, mychips1)
-} 
+} ## end of marly

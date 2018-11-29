@@ -338,16 +338,16 @@ blinds1 = c(50,100)
 dealer1 = 1
 chipstart1 = 20000
 
-decision_one = list(marlon, marly) 
-decision_two = list(marlon, martin)
-decision_three = list(marlon, marty)
-decision_four = list(marly, martin)
-decision_five = list(marly, marty)
-decision_six = list(martin, marty)
+decision_one = list(loose_player, bad_loose_player) 
+decision_two = list(loose_player, tight_player)
+decision_three = list(loose_player, bad_tight_player)
+decision_four = list(bad_loose_player, tight_player)
+decision_five = list(bad_loose_player, bad_tight_player)
+decision_six = list(tight_player, bad_tight_player)
 
 num_hand = 1000
 iters = 3000
-M <- 1
+M = 1
 
 dec1_result_list = matrix(nrow=M,ncol=6)
 for(i in 1:M){
