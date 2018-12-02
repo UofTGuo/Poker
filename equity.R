@@ -350,8 +350,8 @@ decision_six_reverse = list(bad_tight_player,good_tight_player)
 num_hand = 500
 iters = 3000
 
-#dec1_result_list = avg_equity(numattable1,chips1,blinds1,dealer1,chipstart1,decision_one,num_hand,iters)
-dec2_result_list = avg_equity(numattable1,chips1,blinds1,dealer1,chipstart1,decision_one_reverse,num_hand,iters)
+dec1_result_list = avg_equity(numattable1,chips1,blinds1,dealer1,chipstart1,decision_one,num_hand,iters)
+#dec2_result_list = avg_equity(numattable1,chips1,blinds1,dealer1,chipstart1,decision_one_reverse,num_hand,iters)
 #dec3_result_list = avg_equity(numattable1,chips1,blinds1,dealer1,chipstart1,decision_two,num_hand,iters)
 #dec4_result_list = avg_equity(numattable1,chips1,blinds1,dealer1,chipstart1,decision_two_reverse,num_hand,iters)
 #dec5_result_list = avg_equity(numattable1,chips1,blinds1,dealer1,chipstart1,decision_three,num_hand,iters)
