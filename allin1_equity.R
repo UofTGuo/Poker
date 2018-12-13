@@ -312,10 +312,14 @@ win_prob = function(numattable1,dealt_index, round, iters){
 
 # Calculating average equity
 avg_equity = function(numattable, chips, blinds, dealer, chipstart, decision, num_hand, iters){
-  p1_luck = p2_luck = p1_skill = p2_skill = p1_chip = p2_chip = numeric(num_hand)
-  cond <- ((1:num_hand)%%2) == 0
+  #p1_luck = p2_luck = p1_skill = p2_skill = p1_chip = p2_chip = numeric(num_hand)
+  #cond <- ((1:num_hand)%%2) == 0
+  p1_luck = p2_luck = p1_skill = p2_skill = p1_chip = p2_chip = cond = numeric(num_hand)
+  cond[1:(num_hand/2)] = "TRUE"
+  cond[(num_hand/2 + 1):num_hand] = "FALSE"
   for(i in 1:num_hand){
     if(cond[i]){
+      cat("player seats are c(1,2) \n")
       temp = equity(numattable, c(1,2), chips, blinds, dealer, chipstart, decision,iters)
       p1_luck[i] = temp[1]
       p2_luck[i] = temp[2]
@@ -325,6 +329,7 @@ avg_equity = function(numattable, chips, blinds, dealer, chipstart, decision, nu
       p2_chip[i] = temp[6]	
       cat(temp,"\n")
     } else {
+      cat("player seats are c(2,1) \n")
       temp = equity(numattable, c(2,1), chips, blinds, dealer, chipstart, decision,iters)
       p1_luck[i] = temp[2]
       p2_luck[i] = temp[1]
