@@ -1,7 +1,7 @@
 #new players
 
-# tight player (martin)
-tight_player = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1,
+# good tight player (martin)
+good_tight_player = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1,
          roundbets, blinds1, chips1, ind1, dealer1, tablesleft, bluff = 0.1){
 
   
@@ -439,8 +439,8 @@ tight_player = function(numattable1, crds1, board1, round1, currentbet, mychips1
   min(a1, mychips1)
 } ## end of martin
 
-# loose player (marlon)
-loose_player = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1,
+# good loose player (marlon)
+good_loose_player = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1,
                   roundbets, blinds1, chips1, ind1, dealer1, tablesleft, bluff = 0.3){
   
   
