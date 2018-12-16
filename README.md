@@ -4,7 +4,7 @@ This repo contains the implementation of the experiments in the following paper:
 
 Research Project: Quantifying Luck Versus Skill in Texas Hold'em
 
-Authors(* indicates equal contributions)
+Authors(* indicates equal contributions):
 Zhaoyu Guo*,
 Irwin Khuu*,
 Kevin Zhu*,
