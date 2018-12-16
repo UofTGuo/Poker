@@ -2,6 +2,10 @@
 
 This repo contains the implementation of the experiments in the following paper:
 
-[Research Project: Quantifying Luck Versus Skill in Texas Hold'em]
+[Zhaoyu Guo*],
+[Irwin Khuu*],
+[Kevin Zhu*],
+[Jeffrey S. Rosenthal*](http://probability.ca/jeff/) and
+[Frederic P. Schoenberg](http://www.stat.ucla.edu/~frederic/)
 
-Authors: Zhaoyu Guo, Irwin Khuu, Kevin Zhu, Jeffrey S. Rosenthal, Frederic P. Schoenberg
+[Research Project: Quantifying Luck Versus Skill in Texas Hold'em]
