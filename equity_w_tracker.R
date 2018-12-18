@@ -66,6 +66,7 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
 
       p1_skill_equity = p1_skill_equity + 1*(b4$p1) - b4$rb[1,1] - p1_luck_equity
       p2_skill_equity = p2_skill_equity + 0*(b4$p1) - b4$rb[2,1] - p2_luck_equity
+      es <- 1
   return(c( p1_luck_equity, p2_luck_equity, p1_skill_equity, p2_skill_equity, 
 		p1_luck_equity + p1_skill_equity, p2_luck_equity + p2_skill_equity,es))
       break
@@ -75,7 +76,7 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
    #case of small blind raising and big blind folding
       p1_skill_equity = p1_skill_equity + 0*(b4$p1) - b4$rb[1,1] - p1_luck_equity
       p2_skill_equity = p2_skill_equity + 1*(b4$p1) - b4$rb[2,1] - p2_luck_equity
-      es <- 1
+      es <- 2
   return(c( p1_luck_equity, p2_luck_equity, p1_skill_equity, p2_skill_equity, 
 		p1_luck_equity + p1_skill_equity, p2_luck_equity + p2_skill_equity, es))
       break
@@ -101,7 +102,7 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
 
       p1_skill_equity = p1_skill_equity + (1-flop_win_prob[1])*b4$p1 + b5$rb[2,2]
       p2_skill_equity = p2_skill_equity - (1-flop_win_prob[1])*b4$p1 - b5$rb[2,2]
-      es <- 2
+      es <- 3
   return(c( p1_luck_equity, p2_luck_equity, p1_skill_equity, p2_skill_equity, 
 		p1_luck_equity + p1_skill_equity, p2_luck_equity + p2_skill_equity, es))
       break
@@ -111,7 +112,7 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
    #player 1 folding
       p1_skill_equity = p1_skill_equity - (1-flop_win_prob[2])*b4$p1 - b5$rb[1,2]
       p2_skill_equity = p2_skill_equity + (1-flop_win_prob[2])*b4$p1 + b5$rb[1,2]
-      es <- 3
+      es <- 4
   return(c( p1_luck_equity, p2_luck_equity, p1_skill_equity, p2_skill_equity, 
 		p1_luck_equity + p1_skill_equity, p2_luck_equity + p2_skill_equity,es))
       break
@@ -137,7 +138,7 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
 
       p1_skill_equity = p1_skill_equity + (1-turn_win_prob[1])*b5$p1 + b6$rb[2,3]
       p2_skill_equity = p2_skill_equity - (1-turn_win_prob[1])*b5$p1 - b6$rb[2,3]
-      es <- 4
+      es <- 5
   return(c( p1_luck_equity, p2_luck_equity, p1_skill_equity, p2_skill_equity, 
 		p1_luck_equity + p1_skill_equity, p2_luck_equity + p2_skill_equity,es))
       break
@@ -147,7 +148,7 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
    #player 1 folding
       p1_skill_equity = p1_skill_equity - (1-turn_win_prob[2])*b5$p1 - b6$rb[1,3]
       p2_skill_equity = p2_skill_equity + (1-turn_win_prob[2])*b5$p1 + b6$rb[1,3]
-      es <- 5
+      es <- 6
   return(c( p1_luck_equity, p2_luck_equity, p1_skill_equity, p2_skill_equity, 
 		p1_luck_equity + p1_skill_equity, p2_luck_equity + p2_skill_equity,es))
       break
@@ -173,7 +174,7 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
 
       p1_skill_equity = p1_skill_equity + (1-river_win_prob[1])*b6$p1 + b7$rb[2,4]
       p2_skill_equity = p2_skill_equity - (1-river_win_prob[1])*b6$p1 - b7$rb[2,4]
-      es <- 6
+      es <- 7
   return(c( p1_luck_equity, p2_luck_equity, p1_skill_equity, p2_skill_equity, 
 		p1_luck_equity + p1_skill_equity, p2_luck_equity + p2_skill_equity,es))
       break
@@ -183,7 +184,7 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
    #player 1 folding
       p1_skill_equity = p1_skill_equity - (1-river_win_prob[2])*b6$p1 - b7$rb[1,4]
       p2_skill_equity = p2_skill_equity + (1-river_win_prob[2])*b6$p1 + b7$rb[1,4]
-      es <- 7
+      es <- 8
   return(c( p1_luck_equity, p2_luck_equity, p1_skill_equity, p2_skill_equity, 
 		p1_luck_equity + p1_skill_equity, p2_luck_equity + p2_skill_equity,es))
       break
@@ -192,7 +193,7 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
 
   p1_skill_equity = p1_skill_equity + (river_win_prob[1])*(b7$p1-b6$p1) - b7$rb[1,4]
   p2_skill_equity = p2_skill_equity + (river_win_prob[2])*(b7$p1-b6$p1) - b7$rb[2,4]
-  es <- 8
+  es <- 9
   
   return(c( p1_luck_equity, p2_luck_equity, p1_skill_equity, p2_skill_equity, 
 		p1_luck_equity + p1_skill_equity, p2_luck_equity + p2_skill_equity,es))
