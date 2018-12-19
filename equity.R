@@ -1,5 +1,5 @@
 library("holdem")
-#source("new_players.R")
+source("new_players.R")
 options(digits=6)
 
 # calculating equity due to luck and equity due to skill
@@ -356,7 +356,7 @@ chips1 = c(20000,20000)
 blinds1 = c(50,100)
 dealer1 = 1
 chipstart1 = 20000
-num_hand = 10
+num_hand = 3000
 mc_iters = 2000
 
 #GoodLoose
