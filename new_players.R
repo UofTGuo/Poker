@@ -1,7 +1,7 @@
 #new players
 
 # good tight player (martin)
-martin = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1,
+good_tight_player = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1,
          roundbets, blinds1, chips1, ind1, dealer1, tablesleft, bluff = 0.1){
 
   
@@ -440,7 +440,7 @@ martin = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1
 } ## end of martin
 
 # good loose player (marlon)
-marlon = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1,
+good_loose_player = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1,
                   roundbets, blinds1, chips1, ind1, dealer1, tablesleft, bluff = 0.3){
   
   
@@ -969,7 +969,7 @@ marlon = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1
 } ## end of marlin
 
 # bad tight player (marty)
-marty = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1,
+bad_tight_player = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1,
                   roundbets, blinds1, chips1, ind1, dealer1, tablesleft){
   
   a1 = 0 ## how much I'm gonna end up betting. Note that the default is zero.
@@ -1071,7 +1071,7 @@ marty = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1,
 } ## end of marty
 
 # bad loose player (marly)
-marly = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1,
+bad_loose_player = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1,
                   roundbets, blinds1, chips1, ind1, dealer1, tablesleft){
   
   ## always call
