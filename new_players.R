@@ -1,7 +1,7 @@
 #new players
 
 # good tight player (martin)
-good_tight_player = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1,
+martin = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1,
          roundbets, blinds1, chips1, ind1, dealer1, tablesleft, bluff = 0.1){
 
   
@@ -24,10 +24,10 @@ good_tight_player = function(numattable1, crds1, board1, round1, currentbet, myc
     ##    Fold: if amount to call is >=  4bb
     ## Case p3: AJ, AQ, KQ, KJ, QJ, 55-TT: 
     ##    Call: if amount to call is >=  2bb
-    ##    Raise: to 4bb if amount to call < 2bb
+    ##    Raise: to 2bb if amount to call < 2bb
     ##    Fold: if amount to call is >= than 3bb
     ## Case p4: else: 
-    ##    call with bluff % if amount <= 3bb (always limp in at bb); else fold
+    ##    call with bluff % if amount <= 3bb; always limp in at bb; else fold
 
     #case p1:
     if((crds1[1,1] %in% c(13,14)) & (crds1[2,1] %in% c(13,14))){
@@ -440,7 +440,7 @@ good_tight_player = function(numattable1, crds1, board1, round1, currentbet, myc
 } ## end of martin
 
 # good loose player (marlon)
-good_loose_player = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1,
+marlon = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1,
                   roundbets, blinds1, chips1, ind1, dealer1, tablesleft, bluff = 0.3){
   
   
@@ -462,7 +462,7 @@ good_loose_player = function(numattable1, crds1, board1, round1, currentbet, myc
     ##    Fold: if amount to call is >=  5bb (with % 1-bluff)
     ## Case p3: AJ, AQ, KQ, KJ, QJ, 55-TT: 
     ##    Call: if amount to call is >=  2bb
-    ##    Raise: to 4bb if amount to call < 2bb
+    ##    Raise: to 2bb if amount to call < 2bb
     ##    Fold: if amount to call is >= than 5bb (with % 1-bluff)
     ## Case p4: else: 
     ##    call if amount <= blinds (limp in); else call if <= 3bb with bluff %; else fold
@@ -519,7 +519,7 @@ good_loose_player = function(numattable1, crds1, board1, round1, currentbet, myc
   
   if(round1 == 2){ ## post-flop:
     
-    ## Case f1: pair (does not cair if its high pair)
+    ## Case f1: pair (does not care if its high pair)
     ## call: if amount =< pot
     ## bet:  half pot
     ## fold: if amount to call > pot (with % 1-bluff)
@@ -563,7 +563,7 @@ good_loose_player = function(numattable1, crds1, board1, round1, currentbet, myc
     ##  bet: pot
     
     ## Case f8: else
-    ##  call: (if amount less than 2 * pot) with bluff %; else fold
+    ##  call (or bet pot): (if amount less than 2 * pot) with bluff %; else fold
     
     # case f1:
     if (onepair1(c(crds1[1:2,1], board1[1:3,1])) > 0){
@@ -661,7 +661,7 @@ good_loose_player = function(numattable1, crds1, board1, round1, currentbet, myc
       if (a2 <= 2*pot1){
         u <- runif(1,0,1)
         if (u < bluff){
-          a1 <- a2
+          a1 <- max(a2, pot1)
         }
       } else{a1 <- 0}
     }
@@ -809,8 +809,7 @@ good_loose_player = function(numattable1, crds1, board1, round1, currentbet, myc
       if (a2 <= pot1){
         u <- runif(1,0,1)
         if ((u < bluff) & (u > 0.5*bluff)) { #call
-          if (a2 == 0) {a1 = pot1}
-          else {a1 = a2}
+          a1 <- max(a2, pot1)
         }
         if (u <= 0.5 * bluff){ #raise
           if (a2 == 0) {a1 = pot1}
@@ -954,8 +953,7 @@ good_loose_player = function(numattable1, crds1, board1, round1, currentbet, myc
       if (a2 <= pot1){
         u <- runif(1,0,1)
         if ((u < bluff) & (u > 0.5*bluff)) { #call
-          if (a2 == 0) {a1 = pot1}
-          else {a1 = a2}
+          a1 <- max(a2, pot1)
         }
         if (u <= 0.5 * bluff){ #raise
           if (a2 == 0) {a1 = pot1}
@@ -971,7 +969,7 @@ good_loose_player = function(numattable1, crds1, board1, round1, currentbet, myc
 } ## end of marlin
 
 # bad tight player (marty)
-bad_tight_player = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1,
+marty = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1,
                   roundbets, blinds1, chips1, ind1, dealer1, tablesleft){
   
   a1 = 0 ## how much I'm gonna end up betting. Note that the default is zero.
@@ -1073,13 +1071,13 @@ bad_tight_player = function(numattable1, crds1, board1, round1, currentbet, mych
 } ## end of marty
 
 # bad loose player (marly)
-bad_loose_player = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1,
+marly = function(numattable1, crds1, board1, round1, currentbet, mychips1, pot1,
                   roundbets, blinds1, chips1, ind1, dealer1, tablesleft){
   
   ## always call
   
   a1 = 0 ## how much I'm gonna end up betting. Note that the default is zero.
-  a2 = min(mychips1, currentbet) ## how much it costs to call
+  a2 = max(pot1, currentbet) ## how much it costs to call
 
   min(a2, mychips1)
 } ## end of marly
