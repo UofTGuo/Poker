@@ -324,20 +324,20 @@ avg_equity = function(numattable, chips, blinds, dealer, chipstart, decision, nu
       p2_luck[i] = temp[2]
       p1_skill[i] = temp[3]
       p2_skill[i] = temp[4]
-      p1_chip[i] = temp[1] + temp[3]
-      p2_chip[i] = temp[2] + temp[4]
+      p1_chip[i] = temp[5]
+      p2_chip[i] = temp[6]
       endstate[i] = temp[7]
       cat(c(p1_luck[i],p2_luck[i],p1_skill[i],p2_skill[i],p1_chip[i],p2_chip[i],endstate[i]),"\n")
     } 
     else{
       #cat("player seats are c(2,1) \n")
       temp = equity(numattable, c(2,1), chips, blinds, dealer, chipstart, decision,iters)
-      p1_luck[i] = temp[2]
-      p2_luck[i] = temp[1]
-      p1_skill[i] = temp[4]
-      p2_skill[i] = temp[3]
-      p1_chip[i] = temp[2] + temp[4]
-      p2_chip[i] = temp[1] + temp[3]
+      p1_luck[i] = temp[1]
+      p2_luck[i] = temp[2]
+      p1_skill[i] = temp[3]
+      p2_skill[i] = temp[4]
+      p1_chip[i] = temp[5]
+      p2_chip[i] = temp[6]
       endstate[i] = temp[7]
       cat(c(p1_luck[i],p2_luck[i],p1_skill[i],p2_skill[i],p1_chip[i],p2_chip[i],endstate[i]),"\n")
     }
