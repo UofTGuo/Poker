@@ -46,7 +46,7 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
 		p1_skill_equity = p1_skill_equity + blinds1[1] - p1_luck_equity
 		p2_skill_equity = p2_skill_equity - blinds1[1] - p2_luck_equity
 		return(c( p1_luck_equity, p2_luck_equity, p1_skill_equity, p2_skill_equity, 
-			    p1_luck_equity + p1_skill_equity, p2_luck_equity + p2_skill_equity, DSbb))
+			    p1_luck_equity + p1_skill_equity, p2_luck_equity + p2_skill_equity, es))
   		break
 	
 	# case of small blind *not* directly folding
