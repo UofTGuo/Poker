@@ -37,26 +37,23 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
   b4 = bid1(numattable1,playerseats1, chips1, blinds1, dealer1, b3, ntables1, decision1) 
   pre_flop_win_prob = win_prob(numattable1,dealt_index,"pre_flop", iters)
   
-  # case of small blind directly folding
-  if(b4$rb[1,1] == blinds1[2] && b4$rb[2,1] == blinds1[1]){
+	# case of small blind directly folding
+	if(b4$rb[1,1] == blinds1[2] && b4$rb[2,1] == blinds1[1]){
 
-    #New Proposed pre-flop luck (skill changes depending on this value)
-	  #p1_luck_equity = p1_luck_equity + min((2*blinds1[2]*pre_flop_win_prob[1]-blinds1[2]),blinds1[1])
-	  #p2_luck_equity = p2_luck_equity + (2*blinds1[2]*pre_flop_win_prob[2] - blinds1[2])
-    #Schoenberg's Way
-	  p1_luck_equity = p1_luck_equity + (2*blinds1[2]*pre_flop_win_prob[1] - blinds1[2])
- 	  p2_luck_equity = p2_luck_equity + max((2*blinds1[2]*pre_flop_win_prob[2]-blinds1[2]),-blinds1[1])
-    p1_skill_equity = p1_skill_equity + blinds1[1] - p1_luck_equity
-    p2_skill_equity = p2_skill_equity - blinds1[1] - p2_luck_equity
-    return(c(p1_luck_equity,p2_luck_equity,p1_skill_equity,p2_skill_equity,
-             p1_luck_equity+p1_skill_equity,p2_luck_equity+p2_skill_equity,es))
-    break
-  }
-  #Only needed for new proposed way
-  #} else {
-  #  p1_luck_equity = p1_luck_equity + (2*blinds1[2]*pre_flop_win_prob[1] - blinds1[2])
-  #  p2_luck_equity = p2_luck_equity + max((2*blinds1[2]*pre_flop_win_prob[2]-blinds1[2]),-blinds1[1])
-  #}
+	#Schoenberg's Way
+		p1_luck_equity = p1_luck_equity + (2*blinds1[2]*pre_flop_win_prob[1] - blinds1[2])
+		p2_luck_equity = p2_luck_equity + max((2*blinds1[2]*pre_flop_win_prob[2]-blinds1[2]),-blinds1[1])
+		p1_skill_equity = p1_skill_equity + blinds1[1] - p1_luck_equity
+		p2_skill_equity = p2_skill_equity - blinds1[1] - p2_luck_equity
+		return(c( p1_luck_equity, p2_luck_equity, p1_skill_equity, p2_skill_equity, 
+			    p1_luck_equity + p1_skill_equity, p2_luck_equity + p2_skill_equity, DSbb))
+  		break
+	
+	# case of small blind *not* directly folding
+  	} else {
+		p1_luck_equity = p1_luck_equity + (2*blinds1[2]*pre_flop_win_prob[1] - blinds1[2])
+		p2_luck_equity = p2_luck_equity + max((2*blinds1[2]*pre_flop_win_prob[2]-blinds1[2]),-blinds1[1])
+	}
 
   if(b4$all1 == 2){
   #case of small blind matching blinds then folding
@@ -65,6 +62,7 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
       p1_skill_equity = p1_skill_equity + 1*(b4$p1) - b4$rb[1,1] - p1_luck_equity
       p2_skill_equity = p2_skill_equity + 0*(b4$p1) - b4$rb[2,1] - p2_luck_equity
       es = 1
+	print(b4)
       return(c( p1_luck_equity, p2_luck_equity, p1_skill_equity, p2_skill_equity, 
                 p1_luck_equity + p1_skill_equity, p2_luck_equity + p2_skill_equity,es))
       break
