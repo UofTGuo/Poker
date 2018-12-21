@@ -58,23 +58,21 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
   if(b4$all1 == 2){
   #case of small blind matching blinds then folding
     if(b4$rb[1,1] > b4$rb[2,1]){
-
       p1_skill_equity = p1_skill_equity + 1*(b4$p1) - b4$rb[1,1] - p1_luck_equity
       p2_skill_equity = p2_skill_equity + 0*(b4$p1) - b4$rb[2,1] - p2_luck_equity
       es = 1
       return(c( p1_luck_equity, p2_luck_equity, p1_skill_equity, p2_skill_equity, 
                 p1_luck_equity + p1_skill_equity, p2_luck_equity + p2_skill_equity,es))
       break
-    } 
-    else {
-      #case of small blind raising and big blind folding
+    } else if(b4$rb[1,1] < b4$rb[2,1]){
+  #case of small blind raising and big blind folding
       p1_skill_equity = p1_skill_equity + 0*(b4$p1) - b4$rb[1,1] - p1_luck_equity
       p2_skill_equity = p2_skill_equity + 1*(b4$p1) - b4$rb[2,1] - p2_luck_equity
       es = 2
       return(c( p1_luck_equity, p2_luck_equity, p1_skill_equity, p2_skill_equity, 
                 p1_luck_equity + p1_skill_equity, p2_luck_equity + p2_skill_equity,es))
       break
-    }
+    }	
   }
   
   #case where no one folds
@@ -99,9 +97,8 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
       return(c( p1_luck_equity, p2_luck_equity, p1_skill_equity, p2_skill_equity, 
                 p1_luck_equity + p1_skill_equity, p2_luck_equity + p2_skill_equity,es))
       break
-    } 
-    else {
-      #player 1 folding
+    } else if(b5$rb[1,2] < b5$rb[2,2]){
+    #player 1 folding
       p1_skill_equity = p1_skill_equity - (1-flop_win_prob[2])*b4$p1 - b5$rb[1,2]
       p2_skill_equity = p2_skill_equity + (1-flop_win_prob[2])*b4$p1 + b5$rb[1,2]
       es = 4
@@ -132,9 +129,8 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
       return(c( p1_luck_equity, p2_luck_equity, p1_skill_equity, p2_skill_equity, 
                 p1_luck_equity + p1_skill_equity, p2_luck_equity + p2_skill_equity,es))
       break
-    } 
-    else {
-      #player 1 folding
+    } else if(b6$rb[1,3] < b6$rb[2,3]){
+    #player 1 folding
       p1_skill_equity = p1_skill_equity - (1-turn_win_prob[2])*b5$p1 - b6$rb[1,3]
       p2_skill_equity = p2_skill_equity + (1-turn_win_prob[2])*b5$p1 + b6$rb[1,3]
       es = 6
@@ -166,9 +162,8 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
       return(c( p1_luck_equity, p2_luck_equity, p1_skill_equity, p2_skill_equity, 
                 p1_luck_equity + p1_skill_equity, p2_luck_equity + p2_skill_equity,es))
       break
-    } 
-    else {
-      # player 1 folding
+    } else if(b7$rb[1,4] < b7$rb[2,4]){
+    # player 1 folding
       p1_skill_equity = p1_skill_equity - (1-river_win_prob[2])*b6$p1 - b7$rb[1,4]
       p2_skill_equity = p2_skill_equity + (1-river_win_prob[2])*b6$p1 + b7$rb[1,4]
       es = 8
