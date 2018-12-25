@@ -40,7 +40,7 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
 	# case of small blind directly folding
 	if(b4$rb[1,1] == blinds1[2] && b4$rb[2,1] == blinds1[1]){
 
-	#Schoenberg's Way
+	  #Schoenberg's Way
 		p1_luck_equity = p1_luck_equity + (2*blinds1[2]*pre_flop_win_prob[1] - blinds1[2])
 		p2_luck_equity = p2_luck_equity + max((2*blinds1[2]*pre_flop_win_prob[2]-blinds1[2]),-blinds1[1])
 		p1_skill_equity = p1_skill_equity + blinds1[1] - p1_luck_equity
@@ -48,15 +48,15 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
 		return(c( p1_luck_equity, p2_luck_equity, p1_skill_equity, p2_skill_equity, 
 		          p1_luck_equity + p1_skill_equity, p2_luck_equity + p2_skill_equity, es))
 		break
-	}
-	# case of small blind *not* directly folding
+		}
+  # case of small blind *not* directly folding
   else {
-		p1_luck_equity = p1_luck_equity + (2*blinds1[2]*pre_flop_win_prob[1] - blinds1[2])
+    p1_luck_equity = p1_luck_equity + (2*blinds1[2]*pre_flop_win_prob[1] - blinds1[2])
 		p2_luck_equity = p2_luck_equity + max((2*blinds1[2]*pre_flop_win_prob[2]-blinds1[2]),-blinds1[1])
-	}
+		}
 
   if(b4$all1 == 2){
-  #case of small blind matching blinds then folding
+    #case of small blind matching blinds then folding
     if(b4$rb[1,1] > b4$rb[2,1]){
       p1_skill_equity = p1_skill_equity + 1*(b4$p1) - b4$rb[1,1] - p1_luck_equity
       p2_skill_equity = p2_skill_equity + 0*(b4$p1) - b4$rb[2,1] - p2_luck_equity
@@ -64,8 +64,9 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
       return(c( p1_luck_equity, p2_luck_equity, p1_skill_equity, p2_skill_equity, 
                 p1_luck_equity + p1_skill_equity, p2_luck_equity + p2_skill_equity,es))
       break
-    } else if(b4$rb[1,1] < b4$rb[2,1]){
-  #case of small blind raising and big blind folding
+    } 
+    #case of small blind raising and big blind folding
+    else if(b4$rb[1,1] < b4$rb[2,1]){
       p1_skill_equity = p1_skill_equity + 0*(b4$p1) - b4$rb[1,1] - p1_luck_equity
       p2_skill_equity = p2_skill_equity + 1*(b4$p1) - b4$rb[2,1] - p2_luck_equity
       es = 2
@@ -97,8 +98,9 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
       return(c( p1_luck_equity, p2_luck_equity, p1_skill_equity, p2_skill_equity, 
                 p1_luck_equity + p1_skill_equity, p2_luck_equity + p2_skill_equity,es))
       break
-    } else if(b5$rb[1,2] < b5$rb[2,2]){
+    }
     #player 1 folding
+    else if(b5$rb[1,2] < b5$rb[2,2]){
       p1_skill_equity = p1_skill_equity - (1-flop_win_prob[2])*b4$p1 - b5$rb[1,2]
       p2_skill_equity = p2_skill_equity + (1-flop_win_prob[2])*b4$p1 + b5$rb[1,2]
       es = 4
@@ -129,8 +131,9 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
       return(c( p1_luck_equity, p2_luck_equity, p1_skill_equity, p2_skill_equity, 
                 p1_luck_equity + p1_skill_equity, p2_luck_equity + p2_skill_equity,es))
       break
-    } else if(b6$rb[1,3] < b6$rb[2,3]){
+    } 
     #player 1 folding
+    else if(b6$rb[1,3] < b6$rb[2,3]){
       p1_skill_equity = p1_skill_equity - (1-turn_win_prob[2])*b5$p1 - b6$rb[1,3]
       p2_skill_equity = p2_skill_equity + (1-turn_win_prob[2])*b5$p1 + b6$rb[1,3]
       es = 6
@@ -162,8 +165,9 @@ equity = function(numattable1, playerseats1, chips1, blinds1, dealer1, chipstart
       return(c( p1_luck_equity, p2_luck_equity, p1_skill_equity, p2_skill_equity, 
                 p1_luck_equity + p1_skill_equity, p2_luck_equity + p2_skill_equity,es))
       break
-    } else if(b7$rb[1,4] < b7$rb[2,4]){
+    }
     # player 1 folding
+    else if(b7$rb[1,4] < b7$rb[2,4]){
       p1_skill_equity = p1_skill_equity - (1-river_win_prob[2])*b6$p1 - b7$rb[1,4]
       p2_skill_equity = p2_skill_equity + (1-river_win_prob[2])*b6$p1 + b7$rb[1,4]
       es = 8
@@ -233,7 +237,7 @@ win_prob = function(numattable1,dealt_index, round, iters){
     break
   }
 
-  #exact calculation
+  # exact calculation
   if(round == "flop"){
     temp_flop = t(combn(flop_left,2))
     flop_comb = nrow(temp_flop)
@@ -259,7 +263,7 @@ win_prob = function(numattable1,dealt_index, round, iters){
     break
   }
 
-  #exact calculation
+  # exact calculation
   if(round == "turn"){
     temp_turn = turn_left
     turn_comb = length(temp_turn)
