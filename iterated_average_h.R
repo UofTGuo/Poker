@@ -17,6 +17,8 @@ for(i in 1:nrow(gtbl)){
 	}
 }
 
+# Second graph for BadLoose commented out. They're mirrored, so one is sufficient.
+#par(mfrow=c(1,2))
 #Change main="" to show who big blind is
 plot(1:nrow(gtbl), gt_avg_skill, type="l", col="green", lwd=2,
 	xlab="Hand Number", ylab="Average", main="Iterated Average of GoodTight(BB) vs. BadLoose")
@@ -26,3 +28,13 @@ points(1:nrow(gtbl), gt_avg_luck, type="l", col="red", lwd=2)
 points(1:nrow(gtbl), gt_avg_luck - 1.96*gt_se_luck, type="l", lty=2, col="black")
 points(1:nrow(gtbl), gt_avg_luck + 1.96*gt_se_luck, type="l", lty=2, col="black")
 legend("bottomright", legend=c("Skill","SE(Skill)","Luck","SE(Luck)"), col=c("green","darkgrey","red","black"), lty=c(1,2,1,2))
+
+#Think about how to describe titles?
+#plot(1:nrow(gtbl), bl_avg_skill, type="l", col="green", lwd=2,
+#	xlab="Hand Number", ylab="Average", main="Iterated Average of BadLoose(SB) vs. GoodTight")
+#points(1:nrow(gtbl), bl_avg_skill - 1.96*bl_se_skill, type="l", lty=2, col="darkgrey")
+#points(1:nrow(gtbl), bl_avg_skill + 1.96*bl_se_skill, type="l", lty=2, col="darkgrey")
+#points(1:nrow(gtbl), bl_avg_luck, type="l", col="red", lwd=2)
+#points(1:nrow(gtbl), bl_avg_luck - 1.96*bl_se_luck, type="l", lty=2, col="black")
+#points(1:nrow(gtbl), bl_avg_luck + 1.96*bl_se_luck, type="l", lty=2, col="black")
+#legend("topright", legend=c("Skill","SE(Skill)","Luck","SE(Luck)"), col=c("green","darkgrey","red","black"), lty=c(1,2,1,2))
