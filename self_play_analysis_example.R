@@ -11,6 +11,7 @@ p1_chips <- c(GoodLoose_vs_GoodLoose[-1][1:1500,5],GoodLoose_vs_GoodLoose[-1][15
 p2_chips <- c(GoodLoose_vs_GoodLoose[-1][1:1500,6],GoodLoose_vs_GoodLoose[-1][1501:3000,5])
 datta <- data.frame(p1_luck,p2_luck,p1_skill,p2_skill,p1_chips,p2_chips)
 colMeans(datta)
+apply(datta,2,sd)/sqrt(3000)
 cor(p1_luck,p1_skill)
 cor(p2_luck,p2_skill)
 
@@ -54,6 +55,7 @@ p1_chips <- c(GoodLoose_vs_GoodLoose10k[-1][1:5000,5],GoodLoose_vs_GoodLoose10k[
 p2_chips <- c(GoodLoose_vs_GoodLoose10k[-1][1:5000,6],GoodLoose_vs_GoodLoose10k[-1][5001:10000,5])
 datta10k <- data.frame(p1_luck,p2_luck,p1_skill,p2_skill,p1_chips,p2_chips)
 colMeans(datta10k)
+apply(datta10k,2,sd)/sqrt(10000)
 cor(p1_luck,p1_skill)
 cor(p2_luck,p2_skill)
 
