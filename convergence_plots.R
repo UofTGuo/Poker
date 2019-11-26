@@ -39,8 +39,8 @@ legend("topright", legend=c("Skill","SE(Skill)","Luck","SE(Luck)"), col=c("black
 #points(1:nrow(p1p2), p2_avg_skill - 1.96*p2_se_skill, type="l", lty=2, col="grey")
 #points(1:nrow(p1p2), p2_avg_skill + 1.96*p2_se_skill, type="l", lty=2, col="grey")
 #points(1:nrow(p1p2), p2_avg_luck, type="l", lwd=2, lty=2)
-#points(1:nrow(p1p2), p2_avg_luck - 1.96*p2_se_luck, type="l", lty=2, col="black")
-#points(1:nrow(p1p2), p2_avg_luck + 1.96*p2_se_luck, type="l", lty=2, col="black")
+#points(1:nrow(p1p2), p2_avg_luck - 1.96*p2_se_luck, type="l", lty=2, col="grey")
+#points(1:nrow(p1p2), p2_avg_luck + 1.96*p2_se_luck, type="l", lty=2, col="grey")
 #legend("topright", legend=c("Skill","SE(Skill)","Luck","SE(Luck)"), col=c("black","grey","black","grey"), lty=c(1,1,2,2))
 
 ### Latter 1500 hands
@@ -66,6 +66,6 @@ plot(1:nrow(p1p2), p2_avg_skill, type="l", lwd=2, ylim=c(-3000,3000), lty=1,
 points(1:nrow(p1p2), p2_avg_skill - 1.96*p2_se_skill, type="l", lty=2, col="grey")
 points(1:nrow(p1p2), p2_avg_skill + 1.96*p2_se_skill, type="l", lty=2, col="grey")
 points(1:nrow(p1p2), p2_avg_luck, type="l", lwd=2, lty=2)
-points(1:nrow(p1p2), p2_avg_luck - 1.96*p2_se_luck, type="l", lty=2, col="black")
-points(1:nrow(p1p2), p2_avg_luck + 1.96*p2_se_luck, type="l", lty=2, col="black")
+points(1:nrow(p1p2), p2_avg_luck - 1.96*p2_se_luck, type="l", lty=2, col="grey")
+points(1:nrow(p1p2), p2_avg_luck + 1.96*p2_se_luck, type="l", lty=2, col="grey")
 legend("topright", legend=c("Skill","SE(Skill)","Luck","SE(Luck)"), col=c("black","grey","black","grey"), lty=c(1,1,2,2))
