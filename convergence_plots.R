@@ -62,7 +62,7 @@ for(i in 1:nrow(p1p2)){
 	}
 }
 plot(1:nrow(p1p2), p2_avg_skill, type="l", lwd=2, ylim=c(-3000,3000), lty=1,
-	xlab="Hand Number", ylab="Average Profit", main="Iterated Average of GoodTight(SB) vs. BadLoose")
+	xlab="Hand Number", ylab="Average Profit", main="Iterated Average of BadLoose(SB) vs. GoodTight")
 points(1:nrow(p1p2), p2_avg_skill - 1.96*p2_se_skill, type="l", lty=2, col="grey")
 points(1:nrow(p1p2), p2_avg_skill + 1.96*p2_se_skill, type="l", lty=2, col="grey")
 points(1:nrow(p1p2), p2_avg_luck, type="l", lwd=2, lty=2)
