@@ -19,8 +19,6 @@ for(i in 1:nrow(p1p2)){
 	}
 }
 
-
-
 # Second graph for BadLoose commented out. They're mirrored, so one is sufficient.
 #par(mfrow=c(1,2))
 #Change main="" to show who big blind is
